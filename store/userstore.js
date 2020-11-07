@@ -27,6 +27,14 @@ export const mutations = {
     // 这样外面调用这个函数, 并且传入数据, 即可改变当前的 abc 属性
     setUserInfo(state, data) {
         state.userInfo = data
+    },
+    //清除用户数据
+    cleanUserInfo(state, info) {
+        if (process.browser) {
+            localStorage.removeItem('userInfo')
+        }
+        state.userInfo = {}
+
     }
 
 };
