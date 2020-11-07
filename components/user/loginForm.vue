@@ -32,7 +32,7 @@ export default {
             // 表单数据
             form:{
                 username:'13800138000',
-                password:'123'
+                password:'123456'
             },
             // 表单规则：输入内容内初步提示，在整个表单验证，用prop指定某个需要校验规则
             rules: {
@@ -104,9 +104,14 @@ export default {
                 console.log(isvalidata);
                 if(isvalidata){
                     res=await login(this.form)
-                    console.dir(Error);
+          
                     if(res.data.token){
                         this.$message.success("登录成功");
+                        //将结果发送到刚刚新建的vuex中，存储，实现状态持久化，不然刷新之后数据就没了
+                        this.$store.commit('userstore/setUserInfo',res.data)
+                        console.log(res.data);
+
+
                     }else{
                         console.dir(Error);
                     }

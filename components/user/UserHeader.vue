@@ -21,11 +21,15 @@
             <el-row type="flex" align="middle">
 
                 <!-- 如果用户存在则展示用户信息，用户数据来自store -->
-                <el-dropdown v-if="false">
+                <!-- <el-dropdown v-if="$store.state.userstore.userInfo.token"> -->
+                    <el-dropdown v-if="userInfo.token">
+                <!-- <el-dropdown v-if="false"> -->
                     <el-row type="flex" align="middle" class="el-dropdown-link">
                         <nuxt-link to="#">
-                            <img src="http://157.122.54.189:9093/images/pic_sea.jpeg"/>
-                            用户名
+                            <!-- <img src="http://157.122.54.189:9093/images/pic_sea.jpeg"/> -->
+                            <img :src="baseURL+userInfo.user.defaultAvatar"/>
+
+                            {{userInfo.user.nickname}}
                         </nuxt-link>
                         <i class="el-icon-caret-bottom el-icon--right"></i>
                     </el-row>
@@ -42,17 +46,35 @@
                 <!-- 不存在用户信息展示登录注册链接 -->
                 <nuxt-link to="/user/login" class="account-link" v-else>
                     登录 / 注册 
+                     <!-- {{$store.state.userstore.userInfo}} -->
                 </nuxt-link>
             </el-row>
         </el-row>
     </header>
 </template>
 <script>
+import axios from '@/utils/api.js'
 export default {
+    data () {
+        return {
+            baseURL:axios.defaults.baseURL
+        }
+    },
     methods: {
         // 用户退出
         handleLogout(){},
-    }
+    },
+    computed:{
+        userInfo(){
+            console.log(this.$store.state.userstore.userInfo);
+            return this.$store.state.userstore.userInfo
+        }
+        
+    },
+    // mounted () {
+    //     this.$store.state
+    //     console.log(this.$store.state);
+    // }
 }
 </script>
 <style scoped lang="less">
