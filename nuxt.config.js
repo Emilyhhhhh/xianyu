@@ -36,7 +36,16 @@ export default {
      ** Plugins to load before mounting the App
      */
     plugins: [
-        '@/plugins/element-ui'
+        // '@/plugins/element-ui'
+        '@/plugins/element-ui',
+        // '@/plugins/localStorage'
+        // 这里的引入, 如果是普通字符串, 就在服务端马上运行
+        // 如果是要等到浏览器再运行的代码可以将配置改为对象, 并且 路径作为 src 传进去
+        {
+            src: '@/plugins/localStorage',
+            // 如果只在浏览器加载的代码, 可以添加一个 属性 ssr: false
+            ssr: false
+        }
     ],
 
     /*
