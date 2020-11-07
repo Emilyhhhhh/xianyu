@@ -6,3 +6,12 @@ export const banners = () => {
         url: 'scenics/banners'
     })
 }
+
+// 登录
+export const login = (data) => {
+    return axios({
+        method: 'post',
+        url: 'accounts/login',
+        data
+    })
+}
