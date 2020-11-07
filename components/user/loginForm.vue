@@ -4,7 +4,7 @@
   <el-form-item  class="form-item" prop='username'>
     <el-input 
         v-model="form.username" 
-        placeholder="用户名/手机">
+        placeholder="用户名/手机"  @focus="clearRules('username')">
     </el-input>
   </el-form-item>
 
@@ -12,7 +12,7 @@
     <el-input 
        type="password"
        v-model="form.password" 
-       placeholder="密码" ></el-input>
+       placeholder="密码" @focus="clearRules('password')"></el-input>
   </el-form-item>
  
   <el-form-item class="form-item">
@@ -31,35 +31,88 @@ export default {
         return {
             // 表单数据
             form:{
-                username:'',
-                password:''
+                username:'13800138000',
+                password:'123'
             },
             // 表单规则：输入内容内初步提示，在整个表单验证，用prop指定某个需要校验规则
             rules: {
-                username:{
+                username:[{
                     required: true, 
                     message: '请输入用户名', 
                     trigger: 'blur' 
                 },
-                password:{
+                 {
+                    pattern:   /^.{10,13}$/,   //任意5-8个字符
+                    message: '请输入10到13位账号', 
+                    trigger: 'blur' 
+                    },
+                ],
+                password:[
+                    {
                      required: true, 
                     message: '请输入密码', 
                     trigger: 'blur' 
-                }
+                    },
+                    {
+                    pattern:   /^.{5,8}$/,   //任意5-8个字符
+                    message: '请输入任意5-8位密码', 
+                    trigger: 'blur' 
+                    },
+                ]
 
             },
         }
     },
     methods: {
-        async submit(){
+        clearRules(pp){
+            this.$refs.ruleForm.clearValidate(pp)
+        },
+        // handleLoginSubmit() {
+        //         // 发送登录请求前, 需要一次性校验整个表格
+        //         // 1. 拿到表格对象
+        //         // 2. 使用 elmentui 的函数校验表格
+        //         // 3. 合法输入则发送请求
+        //         // this.$refs.form.validate((isValid, obj)=>{})
+        //         // 可以是回调也可以作为 promise
+        //         this.$refs.form
+        //             .validate()
+        //             .then((isValid) => {
+        //                 if (isValid) {
+        //                     console.log("应该发送请求 ");
+        //                     console.log(this.form);
+        //                     this.$axios({
+        //                       url: '/accounts/login',
+        //                       method: 'post',
+        //                       data: this.form
+        //                     }).then(res=>{
+        //                       console.log(res.data);
+        //                       if (res.data.token) {
+        //                         this.$message.success('登录成功')
+        //                       }
+        //                     })
+        //                 }
+        //             })
+        //             .catch((err) => {
+        //                 console.log("不可以发请求 ");
+        //                 console.log(err);
+        //             });
+        // },
+         submit(){
             // 再次验证表单，如果格式不对，不发送请求
-            this.$refs.ruleForm.validate((isvalidata)=>{
+            this.$refs.ruleForm.validate(async(isvalidata)=>{
+                let res
+                console.log(isvalidata);
                 if(isvalidata){
-                    let res=await login(this.form)
-                    console.log(res);
+                    res=await login(this.form)
+                    console.dir(Error);
+                    if(res.data.token){
+                        this.$message.success("登录成功");
+                    }else{
+                        console.dir(Error);
+                    }
                 }else{
-                    
-                }
+                        console.dir(Error) ;
+                    }
             })
 
         }
