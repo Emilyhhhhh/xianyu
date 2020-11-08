@@ -15,3 +15,18 @@ export const login = (data) => {
         data
     })
 }
+
+
+
+
+//手机验证码
+export const captchas = (tel) => {
+    return axios({
+        method: 'post',
+        url: '/captchas',
+        // 注意data传参的格式，不然会报400
+        data: {
+            tel
+        }
+    })
+}

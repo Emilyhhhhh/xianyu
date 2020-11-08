@@ -4,7 +4,7 @@
   <el-form-item  class="form-item" prop='username'>
     <el-input 
         v-model="form.username" 
-        placeholder="用户名/手机"  @focus="clearRules('username')">
+        placeholder="用户名/手机"  @focus="clearRules('username')" >
     </el-input>
   </el-form-item>
 <!-- 验证码 -->
@@ -13,7 +13,7 @@
         v-model="form.captcha" 
         placeholder="验证码"  @focus="clearRules('captcha')">
      <template slot="append">
-    <el-button >发送验证码</el-button>
+    <el-button @click="handleSendCaptcha">发送验证码</el-button>
      </template>
     </el-input>
   </el-form-item>
@@ -48,13 +48,28 @@
 </template>
 
 <script>
-import {login} from '@/myapi/user.js'
+import {register,captchas} from '@/myapi/user.js'
 export default {
     data () {
+      //由于校验函数只是在data使用，可以直接写在data中
+      // value 输入的内容
+      // 校验完成就需要执行
+            // 1. 如果校验合法, 直接执行, 没有参数
+            // 2. 如果不合法, 就要带上一个错误对象参数 new Error('两次密码必须相同')
+      // 确认密码
+      const validatePass=(rule,value,callback)=>{
+        if(value===''){
+          callback(new Error('请再次输入密码'))
+        }else if(value !== this.form.password){
+          callback(new Error('两次输入密码不一致'))
+        }else{
+          callback()
+        }
+      }
         return {
             // 表单数据
             form:{
-                username:'',//用户名/手机
+                username:'18819435342',//用户名/手机
                 password:'', //登录密码
                 checkPassword:'',//确认密码
                 nickname:'', //昵称
@@ -62,17 +77,24 @@ export default {
             },
             // 表单规则：输入内容内初步提示，在整个表单验证，用prop指定某个需要校验规则
             rules: {
+              checkPassword:[
+                {
+                    validator: validatePass,   //校验密码
+                    trigger: 'blur' 
+                    },
+                ],
+                // ---------------------------------
                 username:[{
                     required: true, 
                     message: '请输入用户名', 
                     trigger: 'blur' 
                 },
            // ---------------------------------
-                 {
-                    pattern:   /^.{10,13}$/,   //任意5-8个字符
-                    message: '请输入10到13位账号', 
-                    trigger: 'blur' 
-                    },
+                //  {
+                //     pattern:   /^1[3456789]\d{9}$/,   //任意5-8个字符
+                //     message: '请输入10到13位账号', 
+                //     trigger: 'blur' 
+                //     },
                 ],
            // ---------------------------------
                 password:[
@@ -81,19 +103,11 @@ export default {
                     message: '请输入密码', 
                     trigger: 'blur' 
                     },
-                    {
-                    pattern:   /^.{5,8}$/,   //任意5-8个字符
-                    message: '请输入任意5-8位密码', 
-                    trigger: 'blur' 
-                    },
-                ],
-           // ---------------------------------
-                checkPassword:[
-                  {
-                     required: true, 
-                    message: '请输入密码', 
-                    trigger: 'blur' 
-                    },
+                    // {
+                    // pattern:   /^.{5,8}$/,   //任意5-8个字符
+                    // message: '请输入任意5-8位密码', 
+                    // trigger: 'blur' 
+                    // },
                 ],
                 // ---------------------------------
                 nickname:[
@@ -122,7 +136,22 @@ export default {
          handleRegSubmit(){
            console.log(this.form);
           
+        },
 
+        // 发送验证码
+     async handleSendCaptcha(){
+          console.log(222);
+          // 正则规则语法：规则.test(需要验证的字符)
+          let regexp= /^1[3456789]\d{9}$/
+          if(!regexp.test(this.form.username)){
+            return this.$message.error('请输入正确的手机号')
+          }
+          console.log(this.form.username);
+          let res=await captchas(this.form.username)
+          console.log(res);
+          if (res.data.code) {
+              this.$message.success('成功获取验证码:' + res.data.code)
+            }
         }
     }
 
