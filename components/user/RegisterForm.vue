@@ -70,10 +70,10 @@ export default {
             // 表单数据
             form:{
                 username:'18819435342',//用户名/手机
-                password:'', //登录密码
-                checkPassword:'',//确认密码
-                nickname:'', //昵称
-                captcha:'',  //手机验证码
+                password:'123456', //登录密码
+                checkPassword:'123456',//确认密码
+                nickname:'小白', //昵称
+                captcha:'000000',  //手机验证码
             },
             // 表单规则：输入内容内初步提示，在整个表单验证，用prop指定某个需要校验规则
             rules: {
@@ -130,17 +130,13 @@ export default {
         }
     },
     methods: {
+      // 1.聚焦时清除规则
         clearRules(pp){
             this.$refs.ruleForm.clearValidate(pp)
         },
-         handleRegSubmit(){
-           console.log(this.form);
-          
-        },
 
-        // 发送验证码
+     // 2.发送验证码
      async handleSendCaptcha(){
-          console.log(222);
           // 正则规则语法：规则.test(需要验证的字符)
           let regexp= /^1[3456789]\d{9}$/
           if(!regexp.test(this.form.username)){
@@ -150,9 +146,29 @@ export default {
           let res=await captchas(this.form.username)
           console.log(res);
           if (res.data.code) {
-              this.$message.success('成功获取验证码:' + res.data.code)
+            this.$message.success('成功获取验证码:' + res.data.code)
             }
-        }
+        },
+      
+      // 3.点击注册
+      handleRegSubmit(){
+         console.log(this.form);
+        //  再次验证表单
+         this.$refs.ruleForm.validate(async(isvalidate)=>{
+           let res
+           if(isvalidate){
+            //  注册请求的参数不需要确认密码，所以使用剩余运算符去掉
+             let {checkPassword,...data}=this.form
+             res=await register(data)
+             console.log(res);
+             if (res.data.token) {
+            this.$message.success('注册成功' )
+            this.$emit('toLogin')
+
+            }
+           }
+         })
+      },
     }
 
 }

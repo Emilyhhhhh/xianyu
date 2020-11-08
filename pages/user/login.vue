@@ -22,8 +22,8 @@
                 <!-- 登录功能组件 -->
                 <loginForm v-if="currentTab == 0"/>
 
-                <!-- 注册功能组件 -->
-                <RegisterForm v-if="currentTab == 1"/>
+                <!-- 注册功能组件 监听toLogin-->
+                <RegisterForm v-if="currentTab == 1" @toLogin='currentTab =0'/>
             </div>
         </el-row>
     </div>

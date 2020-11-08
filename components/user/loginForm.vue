@@ -1,6 +1,7 @@
 <template>
+<!-- form整个表单，用于数据提取或渲染，rules设置校验规则 -->
   <el-form :model="form"  :rules="rules" ref="ruleForm"  class="form">
-
+<!-- prop告诉这个文本框是按rules的哪条规则校验的，v-model绑定表单的属性 -->
   <el-form-item  class="form-item" prop='username'>
     <el-input 
         v-model="form.username" 
@@ -110,6 +111,7 @@ export default {
                         //将结果发送到刚刚新建的vuex中，存储，实现状态持久化，不然刷新之后数据就没了
                         this.$store.commit('userstore/setUserInfo',res.data)
                         console.log(res.data);
+                        this.$router.push('/')
 
 
                     }else{
