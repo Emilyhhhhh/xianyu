@@ -8,20 +8,20 @@
     </el-input>
   </el-form-item>
 <!-- 验证码 -->
-  <el-form-item  class="form-item" prop='username'>
+  <el-form-item  class="form-item" prop='captcha'>
     <el-input 
         v-model="form.captcha" 
-        placeholder="验证码"  @focus="clearRules('username')">
+        placeholder="验证码"  @focus="clearRules('captcha')">
      <template slot="append">
     <el-button >发送验证码</el-button>
      </template>
     </el-input>
   </el-form-item>
 <!-- 昵称 -->
-  <el-form-item  class="form-item" prop='username'>
+  <el-form-item  class="form-item" prop='nickname'>
     <el-input 
         v-model="form.nickname" 
-        placeholder="昵称"  @focus="clearRules('username')">
+        placeholder="昵称"  @focus="clearRules('nickname')">
     </el-input>
   </el-form-item>
 <!-- 密码 -->
@@ -33,11 +33,11 @@
   </el-form-item>
 
 <!-- 确认密码 -->
-  <el-form-item  class="form-item" prop='password'>
+  <el-form-item  class="form-item" prop='checkPassword'>
     <el-input 
        type="password"
        v-model="form.checkPassword" 
-       placeholder="确认密码" @focus="clearRules('password')"></el-input>
+       placeholder="确认密码" @focus="clearRules('checkPassword')"></el-input>
   </el-form-item>
 
   <el-form-item class="form-item">
@@ -67,12 +67,14 @@ export default {
                     message: '请输入用户名', 
                     trigger: 'blur' 
                 },
+           // ---------------------------------
                  {
                     pattern:   /^.{10,13}$/,   //任意5-8个字符
                     message: '请输入10到13位账号', 
                     trigger: 'blur' 
                     },
                 ],
+           // ---------------------------------
                 password:[
                     {
                      required: true, 
@@ -82,6 +84,30 @@ export default {
                     {
                     pattern:   /^.{5,8}$/,   //任意5-8个字符
                     message: '请输入任意5-8位密码', 
+                    trigger: 'blur' 
+                    },
+                ],
+           // ---------------------------------
+                checkPassword:[
+                  {
+                     required: true, 
+                    message: '请输入密码', 
+                    trigger: 'blur' 
+                    },
+                ],
+                // ---------------------------------
+                nickname:[
+                  {
+                     required: true, 
+                    message: '请输入昵称', 
+                    trigger: 'blur' 
+                    },
+                ],
+                // ---------------------------------
+                captcha:[
+                  {
+                     required: true, 
+                    message: '请输入手机验证码', 
                     trigger: 'blur' 
                     },
                 ]
