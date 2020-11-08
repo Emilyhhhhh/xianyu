@@ -29,13 +29,13 @@ export const mutations = {
         state.userInfo = data
     },
     //清除用户数据
-    cleanUserInfo(state, info) {
-        if (process.browser) {
-            localStorage.removeItem('userInfo')
-        }
-        state.userInfo = {}
-
-    }
+    // cleanUserInfo(state, info) {
+    //     // 是否存在浏览器环境
+    //     if (process.browser) {
+    //         localStorage.removeItem('userInfo')
+    //     }
+    //     state.userInfo = {}
+    // }
 
 };
 

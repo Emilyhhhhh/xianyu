@@ -63,8 +63,12 @@ export default {
     methods: {
         // 用户退出
         handleLogout(){
-            const {commit}=this.$store;
-            commit("userstore/cleanUserInfo")
+            //🚩 第一种方法：
+            // const {commit}=this.$store;
+            // commit("userstore/cleanUserInfo")
+            //🚩 第二种方法：直接传空的对象回去
+            this.$store.commit('userstore/setUserInfo',{})
+            console.log(this.$store.state.userstore.userInfo);
             this.$message({
                 message:'已退出',
                 type:'success'
