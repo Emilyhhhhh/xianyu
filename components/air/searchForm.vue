@@ -32,14 +32,16 @@
                 v-model="form.destCity"
                 ></el-autocomplete>
             </el-form-item>
-           <!-- <el-form-item label="出发时间">-->
+           <el-form-item label="出发时间">
                 <!-- change 用户确认选择日期时触发 -->
-               <!-- <el-date-picker type="date" 
+                <el-date-picker type="date" 
                 placeholder="请选择日期" 
                 style="width: 100%;"
-                @change="handleDate">
+                @change="handleDate"
+                v-model="form.departDate">
                 </el-date-picker>
             </el-form-item>
+
             <el-form-item label="">
                 <el-button style="width:100%;" 
                 type="primary" 
@@ -50,13 +52,14 @@
             </el-form-item>
             <div class="reverse">
                 <span @click="handleReverse">换</span>
-            </div> -->
+            </div> 
         </el-form>  
 
       </div>
 </template>
 
 <script>
+import moment from "moment";
 import {airsSearch} from '@/myapi/user.js'
 export default {
     data () {
@@ -81,7 +84,7 @@ export default {
             this.currentTab=index
 
         },
-
+// -------------------------------------------------
         // 🚩🚩2.出发城市输入框获得焦点时触发
         // value当前输入值  callback输出列表的回调
         queryDepartSearch(value, callback) {
@@ -98,11 +101,9 @@ export default {
       handleDepartSelect(item) {
           this.form.departCity = item.value;
           this.form.departCode = item.sort;
-          console.log(item);
-          console.log(this.form);
       },
-
-       // 🚩🚩3.出发城市输入框获得焦点时触发
+// -------------------------------------------------
+       // 🚩🚩3.到达城市输入框获得焦点时触发
         // value 是选中的值，cb是回调函数，接收要展示的列表
         queryDestSearch(value, callback) {
              if(value=='') return
@@ -115,8 +116,7 @@ export default {
       handleDestSelect(item){
           this.form.destCity = item.value;
           this.form.destCode = item.sort;
-          console.log(item);
-          console.log(this.form);
+
 
       },
 
@@ -130,8 +130,21 @@ export default {
                  })
             console.log(arr);
             callback(arr)
-      }
+      },
+// ------------------------------------------------------------
+      //确认时期时触发
+      handleDate(value){
+          this.form.departDate=moment(value).format("YYYY-MM-DD")
 
+      },
+
+      handleReverse(){},
+
+      // 提交表单
+      handleSubmit(){
+          console.log(this.form);
+
+      }
 
 
 
