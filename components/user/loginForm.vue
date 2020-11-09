@@ -102,24 +102,24 @@ export default {
             // 再次验证表单，如果格式不对，不发送请求
             this.$refs.ruleForm.validate(async(isvalidata)=>{
                 let res
-                console.log(isvalidata);
+                console.log('规则校验'+isvalidata);
                 if(isvalidata){
                     res=await login(this.form)
           
-                    if(res.data.token){
+                    if(res&&res.data.token){
                         this.$message.success("登录成功");
                         //将结果发送到刚刚新建的vuex中，存储，实现状态持久化，不然刷新之后数据就没了
                         this.$store.commit('userstore/setUserInfo',res.data)
                         console.log(res.data);
                         this.$router.push('/')
-
-
-                    }else{
-                        console.dir(Error);
                     }
-                }else{
-                        console.dir(Error) ;
-                    }
+                    // else{
+                    //     console.dir(Error);
+                    // }   没有信息   需要添加axios拦截器
+                }
+                // else{
+                //         console.dir(Error) ;
+                //     }    没有信息   需要添加axios拦截器
             })
 
         }
