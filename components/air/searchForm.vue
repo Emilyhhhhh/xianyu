@@ -157,16 +157,36 @@ export default {
       // 🚩🚩6. 提交表单
       handleSubmit(){
           console.log(this.form);
+        //  提交表单时验证 ,,验证非空
+          const rules={
+                departCity: {
+                    value: this.form.departCity, 
+                    message: "请选择出发城市"
+                }, // 出发城市
+ 
+                departDate: {
+                    value: this.form.departDate, 
+                    message: "请选择出发时间"
+                }, // 日期字符串
+                destCity: {
+                    value: this.form.destCity, 
+                    message: "请选择到达城市"
+                },  // 到达城市
+          }
 
           let valid=true   //表单验证结果
-                Object.keys(this.form).forEach(v => {
+                    
+                Object.keys(rules).forEach(v => {
                     // 只要有一个结果不通过，就停止循环
                     if(!valid) return;
-                    const item = this.form[v];
+                    const item = rules[v];
+                    console.log(item);
+
                     // 数据字段为空
                     if(!item.value){
                         valid = false;
-                        this.$confirm('请输入需要查询的城市或者日期', '提示', {
+
+                        this.$confirm(item.message, '提示', {
                             confirmButtonText: '确定',
                             showCancelButton: false,
                             type: 'warning'
@@ -190,14 +210,7 @@ export default {
                     path: "/air/flights",
                     query: this.form
                 })
-
       }
-
-
-
-
-
-
     }
 
 }
