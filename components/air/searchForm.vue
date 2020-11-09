@@ -70,10 +70,10 @@ export default {
             ],
             currentTab:0,
             form:{
-                departCity: "", // 出发城市
+                departCity: "广州", // 出发城市
                 departCode: "", // 出发城市代码
                 departDate: "", // 日期字符串
-                destCity: "",  // 到达城市
+                destCity: "上海",  // 到达城市
                 destCode: "",  // 到达城市代码
             }
         }

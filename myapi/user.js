@@ -41,7 +41,7 @@ export const captchas = (tel) => {
 }
 
 
-//实时机票城市
+//实时机票城市：首页搜索框
 export const airsSearch = (name) => {
     return axios({
         url: '/airs/city',
@@ -49,5 +49,13 @@ export const airsSearch = (name) => {
         params: {
             name
         }
+    })
+}
+
+//推荐机票：首页底部的特价机票
+export const airsSale = () => {
+    return axios({
+        url: '/airs/sale',
+        // 注意data传参的格式，不然会报400
     })
 }

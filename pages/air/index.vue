@@ -8,6 +8,7 @@
     <el-row type="flex" justify="space-between">
         <!-- 搜索表单 -->
         <!-- <div>搜索</div> -->
+        <!-- 🚩🚩1.插入子组件 -->
         <searchForm/>
 
         <!-- banner广告 -->
@@ -37,18 +38,50 @@
       <i>特价机票</i>
     </h2>
 
-    <!-- 特价机票 -->
+    <!--🚩🚩2. 特价机票 -->
     <div class="air-sale">
+      <el-row type="flex" class="air-sale-pic" justify="space-between">
+            <el-col :span="6" v-for="(item, index) in sales" :key="index">
+                <nuxt-link :to="`/air/flights?departCity=${item&&item.departCity}&departCode=${item&&item.departCode}&destCity=${item&&item.destCity}&destCode=${item&&item.destCode}&departDate=${item&&item.departDate}`">
+                    <img :src="'http://157.122.54.189:9095'+item.cover"/>
+                    <el-row class="layer-bar" type="flex" justify="space-between">
+                        <span>{{item&&item.departCity}}-{{item&&item.destCity}}</span>
+                        <span>￥{{item.price}}</span>
+                    </el-row>
+                </nuxt-link>
+            </el-col>
+      </el-row>
         
     </div>
   </section>
 </template>
 <script>
-import axios from '@/plugins/axios.js'
+// import myaxios from '@/plugins/axios.js'
 import searchForm from '@/components/air/searchForm.vue'
+import {airsSale} from '@/myapi/user.js'
+import axios from '@/utils/api.js'
 export default {
+  data () {
+    return {
+      sales:[]
+      
+    }
+  },
   components:{
     searchForm
+  },
+  async mounted () {
+    let res =await airsSale()
+    this.sales=res.data.data
+    // this.sales=res.data.data.map(v=>{
+    //   console.log(v.cover=axios.defaults.baseURL+v.cover);
+    //   v.cover=axios.defaults.baseURL+v.cover
+    //   return v
+    // })
+
+    console.log(this.sales);
+
+
   }
 
 }
