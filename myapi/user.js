@@ -59,3 +59,12 @@ export const airsSale = () => {
         // 注意data传参的格式，不然会报400
     })
 }
+
+//机票列表：机票列表页数据渲染
+export const airsList = (params) => {
+    return axios({
+        url: '/airs',
+        params
+        // 注意data传参的格式，不然会报400
+    })
+}
