@@ -1,3 +1,4 @@
+//封装API基地址
 // 本地服务器
 // import axios from 'axios'
 // axios.defaults.baseURL = 'http://localhost:1337'
@@ -25,11 +26,4 @@ http.interceptors.response.use(
         Message.error(err.response.data.message || '系统错误')
     }
 )
-
-
-
-
-
-
-
 export default http
