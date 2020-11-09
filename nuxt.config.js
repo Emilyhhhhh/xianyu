@@ -45,7 +45,8 @@ export default {
             src: '@/plugins/localStorage',
             // 如果只在浏览器加载的代码, 可以添加一个 属性 ssr: false
             ssr: false
-        }
+        },
+        '@/plugins/axios' // 调用插件
     ],
 
     /*
