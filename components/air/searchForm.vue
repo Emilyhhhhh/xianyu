@@ -82,6 +82,13 @@ export default {
         // 🚩🚩1.头部tab切换
         handleSearchTab(index){
             this.currentTab=index
+            if(index==1){
+                this.$confirm('目前暂不支持往返，请使用单程选票!', '提示', {
+            confirmButtonText: '确定',
+            showCancelButton: false,
+            type: 'warning'
+        })
+            }
 
         },
 // -------------------------------------------------
@@ -107,7 +114,15 @@ export default {
        // 🚩🚩3.到达城市输入框获得焦点时触发
         // value 是选中的值，cb是回调函数，接收要展示的列表
         queryDestSearch(value, callback) {
-             if(value=='') return
+             if(value=='') {
+            
+                this.$confirm('请输入关键字', '提示', {
+                    confirmButtonText: '确定',
+                    showCancelButton: false,
+                    type: 'warning'
+                })
+                 return}
+
             // 调用发送请求
            this.airsSearchList(value,callback)
         
@@ -131,23 +146,77 @@ export default {
             callback(arr)
       },
 // ------------------------------------------------------------
-      //确认时期时触发
+      //🚩🚩4.确认时期时触发
       handleDate(value){
           this.form.departDate=moment(value).format("YYYY-MM-DD")
       },
 
-      // 触发和目标城市切换时触发
-            handleReverse(){
-                const { departCity, departCode, destCity, destCode} = this.form;
-                this.form.departCity = destCity;
-                this.form.departCode = destCode;
-                this.form.destCity = departCity;
-                this.form.destCode = departCode;
-            },
+// ------------------------------------------------------------
+      // 🚩🚩5.触发和目标城市切换时触发
+        handleReverse(){
+            const { departCity, departCode, destCity, destCode} = this.form;
+            this.form.departCity = destCity;
+            this.form.departCode = destCode;
+            this.form.destCity = departCity;
+            this.form.destCode = departCode;
+        },
 
-      // 提交表单
+      // 🚩🚩6. 提交表单
       handleSubmit(){
           console.log(this.form);
+        //  提交表单时验证 ,,验证非空
+          const rules={
+                departCity: {
+                    value: this.form.departCity, 
+                    message: "请选择出发城市"
+                }, // 出发城市
+ 
+                departDate: {
+                    value: this.form.departDate, 
+                    message: "请选择出发时间"
+                }, // 日期字符串
+                destCity: {
+                    value: this.form.destCity, 
+                    message: "请选择到达城市"
+                },  // 到达城市
+          }
+
+          let valid=true   //表单验证结果
+                    
+                Object.keys(rules).forEach(v => {
+                    // 只要有一个结果不通过，就停止循环
+                    if(!valid) return;
+                    const item = rules[v];
+                    console.log(item);
+
+                    // 数据字段为空
+                    if(!item.value){
+                        valid = false;
+
+                        this.$confirm(item.message, '提示', {
+                            confirmButtonText: '确定',
+                            showCancelButton: false,
+                            type: 'warning'
+                        })
+                    }
+                });
+
+                // 不通过验证，不需要往下执行
+                if(!valid) return;
+
+          // 带上当前的数据跳转到结果页面
+                // this.$router('/air/flights?departCity=xxx')
+                // 拼接会非常麻烦
+
+                // 如果要从 url 上面获取问号参数
+                // this.$route.query 问号参数获取
+                // this.$route.params 动态路由参数
+                // 其实在跳转的时候, 也能用query作为数据进行跳转
+                // 将本来字符串变成对象即可
+               this.$router.push({
+                    path: "/air/flights",
+                    query: this.form
+                })
 
       }
 
