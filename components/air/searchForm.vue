@@ -9,7 +9,50 @@
                 <i :class="item.icon"></i>{{item.name}}
             </span>
         </el-row>
-       
+        <!-- form表单 label-width表单域标签的宽度-->
+                <el-form class="search-form-content" ref="form" label-width="80px">
+            <el-form-item label="出发城市">
+                <!-- fetch-suggestions 返回输入建议的方法 -->
+                <!-- select 点击选中建议项时触发 -->
+                <!-- autocomplete 是一个可带输入建议的输入框组件 -->
+                <el-autocomplete
+                :fetch-suggestions="queryDepartSearch"
+                placeholder="请搜索出发城市"
+                @select="handleDepartSelect"
+                class="el-autocomplete"
+                v-model="form.departCity"
+                ></el-autocomplete>
+            </el-form-item>
+          <el-form-item label="到达城市">
+                <el-autocomplete
+                :fetch-suggestions="queryDestSearch"
+                placeholder="请搜索到达城市"
+                @select="handleDestSelect"
+                class="el-autocomplete"
+                v-model="form.destCity"
+                ></el-autocomplete>
+            </el-form-item>
+           <!-- <el-form-item label="出发时间">-->
+                <!-- change 用户确认选择日期时触发 -->
+               <!-- <el-date-picker type="date" 
+                placeholder="请选择日期" 
+                style="width: 100%;"
+                @change="handleDate">
+                </el-date-picker>
+            </el-form-item>
+            <el-form-item label="">
+                <el-button style="width:100%;" 
+                type="primary" 
+                icon="el-icon-search"
+                @click="handleSubmit">
+                    搜索
+                </el-button>
+            </el-form-item>
+            <div class="reverse">
+                <span @click="handleReverse">换</span>
+            </div> -->
+        </el-form>  
+
       </div>
 </template>
 
@@ -23,7 +66,13 @@ export default {
                 {icon: "iconfont iconshuangxiang", name: "往返"}
             ],
             currentTab:0,
-         
+            form:{
+                departCity: "", // 出发城市
+                departCode: "", // 出发城市代码
+                departDate: "", // 日期字符串
+                destCity: "",  // 到达城市
+                destCode: "",  // 到达城市代码
+            }
         }
     },
     methods:{
@@ -33,7 +82,49 @@ export default {
 
         },
 
+        // 🚩🚩2.出发城市输入框获得焦点时触发
+         // value 是输入框的值，cb是回调函数，接收要展示的列表
+        queryDepartSearch(value, callback) {
+            if(value=='') return
+            // 调用发送请求
+           this.airsSearchList(value,callback)
+              
+      },
+
+      // 出发城市下拉选择时触发
+      // 这里是用户选择了其中一个选项之后会触发的事件
+      // 可以接收到用户选择选项的对象本身
+      // 不单单是 value ,而是整个对象, 可以进行后续操作
+      handleDepartSelect(item) {
+        console.log(item);
+      },
+
+       // 🚩🚩3.出发城市输入框获得焦点时触发
+        // value 是选中的值，cb是回调函数，接收要展示的列表
+        queryDestSearch(value, callback) {
+             if(value=='') return
+            // 调用发送请求
+           this.airsSearchList(value,callback)
         
+      },
+
+      // 到达城市下拉选择时触发
+      handleDestSelect(){
+
+      },
+
+      // 封装搜索实时机票城市
+     async airsSearchList(value,callback){
+          let res=await airsSearch(value)
+             console.log(res);
+
+             const arr=res.data.data.map(v=>{
+                    console.log({...res,value:v.name.replace('市','')} );
+                    return {...res,value:v.name.replace('市','')}
+                 })
+            callback(arr)
+      }
+
 
 
 

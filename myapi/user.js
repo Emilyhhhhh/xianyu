@@ -1,3 +1,4 @@
+// 封装api接口
 import axios from '@/utils/api.js'
 
 // 首页轮播图
@@ -35,6 +36,18 @@ export const captchas = (tel) => {
         // 注意data传参的格式，不然会报400
         data: {
             tel
+        }
+    })
+}
+
+
+//实时机票城市
+export const airsSearch = (name) => {
+    return axios({
+        url: '/airs/city',
+        // 注意data传参的格式，不然会报400
+        params: {
+            name
         }
     })
 }
