@@ -82,7 +82,7 @@ export default {
         // 🚩🚩1.头部tab切换
         handleSearchTab(index){
             this.currentTab=index
-            if(index==1){
+             if(index==1){
                 this.$confirm('目前暂不支持往返，请使用单程选票!', '提示', {
             confirmButtonText: '确定',
             showCancelButton: false,
@@ -114,15 +114,7 @@ export default {
        // 🚩🚩3.到达城市输入框获得焦点时触发
         // value 是选中的值，cb是回调函数，接收要展示的列表
         queryDestSearch(value, callback) {
-             if(value=='') {
-            
-                this.$confirm('请输入关键字', '提示', {
-                    confirmButtonText: '确定',
-                    showCancelButton: false,
-                    type: 'warning'
-                })
-                 return}
-
+             if(value=='') return
             // 调用发送请求
            this.airsSearchList(value,callback)
         
@@ -136,6 +128,7 @@ export default {
 
     //   // 封装搜索实时机票城市
      async airsSearchList(value,callback){
+         if(value=='') return
           let res=await airsSearch(value)
              console.log(res);
 
@@ -164,36 +157,16 @@ export default {
       // 🚩🚩6. 提交表单
       handleSubmit(){
           console.log(this.form);
-        //  提交表单时验证 ,,验证非空
-          const rules={
-                departCity: {
-                    value: this.form.departCity, 
-                    message: "请选择出发城市"
-                }, // 出发城市
- 
-                departDate: {
-                    value: this.form.departDate, 
-                    message: "请选择出发时间"
-                }, // 日期字符串
-                destCity: {
-                    value: this.form.destCity, 
-                    message: "请选择到达城市"
-                },  // 到达城市
-          }
 
           let valid=true   //表单验证结果
-                    
-                Object.keys(rules).forEach(v => {
+                Object.keys(this.form).forEach(v => {
                     // 只要有一个结果不通过，就停止循环
                     if(!valid) return;
-                    const item = rules[v];
-                    console.log(item);
-
+                    const item = this.form[v];
                     // 数据字段为空
                     if(!item.value){
                         valid = false;
-
-                        this.$confirm(item.message, '提示', {
+                        this.$confirm('请输入需要查询的城市或者日期', '提示', {
                             confirmButtonText: '确定',
                             showCancelButton: false,
                             type: 'warning'
