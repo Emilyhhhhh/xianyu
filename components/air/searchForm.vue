@@ -83,7 +83,7 @@ export default {
         },
 
         // 🚩🚩2.出发城市输入框获得焦点时触发
-         // value 是输入框的值，cb是回调函数，接收要展示的列表
+        // value当前输入值  callback输出列表的回调
         queryDepartSearch(value, callback) {
             if(value=='') return
             // 调用发送请求
@@ -96,7 +96,10 @@ export default {
       // 可以接收到用户选择选项的对象本身
       // 不单单是 value ,而是整个对象, 可以进行后续操作
       handleDepartSelect(item) {
-        console.log(item);
+          this.form.departCity = item.value;
+          this.form.departCode = item.sort;
+          console.log(item);
+          console.log(this.form);
       },
 
        // 🚩🚩3.出发城市输入框获得焦点时触发
@@ -109,19 +112,23 @@ export default {
       },
 
       // 到达城市下拉选择时触发
-      handleDestSelect(){
+      handleDestSelect(item){
+          this.form.destCity = item.value;
+          this.form.destCode = item.sort;
+          console.log(item);
+          console.log(this.form);
 
       },
 
-      // 封装搜索实时机票城市
+    //   // 封装搜索实时机票城市
      async airsSearchList(value,callback){
           let res=await airsSearch(value)
              console.log(res);
 
              const arr=res.data.data.map(v=>{
-                    console.log({...res,value:v.name.replace('市','')} );
-                    return {...res,value:v.name.replace('市','')}
+                 return {...v,value:v.name.replace('市','')}
                  })
+            console.log(arr);
             callback(arr)
       }
 
