@@ -77,7 +77,7 @@ export default {
     },
     computed:{
         userInfo(){
-            console.log(this.$store.state.userstore.userInfo);
+            // console.log(this.$store.state.userstore.userInfo);
             return this.$store.state.userstore.userInfo
         }
         
