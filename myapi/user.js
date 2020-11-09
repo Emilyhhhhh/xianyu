@@ -17,6 +17,14 @@ export const login = (data) => {
 }
 
 
+// 注册
+export const register = (data) => {
+    return axios({
+        method: 'post',
+        url: 'accounts/register',
+        data
+    })
+}
 
 
 //手机验证码

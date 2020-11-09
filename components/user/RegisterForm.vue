@@ -79,7 +79,7 @@ export default {
             rules: {
               checkPassword:[
                 {
-                    validator: validatePass,   //校验密码
+                    validator: validatePass,   //校验密码：自定义的校验方法
                     trigger: 'blur' 
                     },
                 ],
