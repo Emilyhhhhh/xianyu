@@ -91,6 +91,7 @@ export default {
             if(value=='') return
             // 调用发送请求
            this.airsSearchList(value,callback)
+
               
       },
 
@@ -116,8 +117,6 @@ export default {
       handleDestSelect(item){
           this.form.destCity = item.value;
           this.form.destCode = item.sort;
-
-
       },
 
     //   // 封装搜索实时机票城市
@@ -135,10 +134,16 @@ export default {
       //确认时期时触发
       handleDate(value){
           this.form.departDate=moment(value).format("YYYY-MM-DD")
-
       },
 
-      handleReverse(){},
+      // 触发和目标城市切换时触发
+            handleReverse(){
+                const { departCity, departCode, destCity, destCode} = this.form;
+                this.form.departCity = destCity;
+                this.form.departCode = destCode;
+                this.form.destCity = departCity;
+                this.form.destCode = departCode;
+            },
 
       // 提交表单
       handleSubmit(){
