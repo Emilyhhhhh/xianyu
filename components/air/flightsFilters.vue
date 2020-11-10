@@ -101,6 +101,16 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less" scoped>
+.filters{
+    margin-bottom: 20px;
+}
+.filters-top{
+    >div{
+        /deep/ .el-select{
 
+            margin-left: 10px;
+        }
+    }
+}
 </style>
