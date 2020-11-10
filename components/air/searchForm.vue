@@ -152,19 +152,23 @@ export default {
                const arr=res.data.data.map(v=>{
                 // 🚩🚩🚩 这里注意不要拼接错误，这里的参数后期都要做的，参数平级
                    return {...v,value:v.name.replace('市','')}
+               }).filter(city=>{
+                 return city.sort
                })
 
                if(arr.length==0){
                   this.$confirm('没有这个城市', '提示', {
                             confirmButtonText: '确定',
                             showCancelButton: false,
-                            type: 'warning'
+                            type: 'warning',
+                            closeOnClickModal:false
                         })
+                   
                }
+            console.log(arr);
              return arr
              }
 
-            console.log(arr);
       },
 // ------------------------------------------------------------
       //🚩🚩4.确认时期时触发
@@ -218,6 +222,7 @@ export default {
                             confirmButtonText: '确定',
                             showCancelButton: false,
                             type: 'warning'
+
                         })
                     }
                 });
