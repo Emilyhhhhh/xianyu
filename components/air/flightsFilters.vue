@@ -3,9 +3,9 @@
         <el-row type="flex" class="filters-top" justify="space-between" align="middle">
             <el-col :span="8">
                 单程： 
-                广州 - 上海 
+                 {{data.info.departCity}} - {{data.info.destCity}} 
                 / 
-                2019-06-17
+                {{data.info.departDate}}
             </el-col>
             <el-col :span="4">
                 <el-select size="mini" v-model="airport" placeholder="起飞机场" @change="handleAirport">
@@ -18,6 +18,8 @@
             </el-col>
             <el-col :span="4">
                 <el-select size="mini" v-model="flightTimes"  placeholder="起飞时间" @change="handleFlightTimes">
+                     <!-- 由于我们的筛选不经过后台, 这里的 value 可以随便定
+                    只要后面写筛选, 根据这里的 value 值去过滤即可 -->
                     <el-option
                     :label="`${v.from}:00-${v.to}:00`"
                     :value="`${v.from},${v.to}`"
@@ -36,8 +38,9 @@
             <el-col :span="4">
                 <el-select size="mini" v-model="airSize" placeholder="机型" @change="handleAirSize">
                     <el-option
-                    label="大"
-                    value="大">
+                    :label="v.label"
+                    :value="v.value"
+                    v-for="(v,i) in sizeOptions" :key='i'>
                     </el-option>
                 </el-select>
             </el-col>
@@ -71,6 +74,20 @@ export default {
             flightTimes:'',
             company:'',
             airSize:'',
+             sizeOptions: [
+                    {
+                        label: '大',
+                        value: 'L'
+                    },
+                    {
+                        label: '中',
+                        value: 'M'
+                    },
+                    {
+                        label: '小',
+                        value: 'S'
+                    }
+                ]
         }
     },
     methods: {
