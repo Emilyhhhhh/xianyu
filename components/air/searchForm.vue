@@ -100,10 +100,11 @@ export default {
 // -------------------------------------------------
         // 🚩🚩2.出发城市输入框获得焦点时触发
         // value当前输入值  callback输出列表的回调
-        queryDepartSearch(value, callback) {
+       async queryDepartSearch(value, callback) {
             // if(value=='') return
             // 调用发送请求
-           this.airsSearchList(value,callback)
+          let showlist=await this.airsSearchList(value)
+           callback(showlist)
 
               
       },
@@ -119,10 +120,11 @@ export default {
 // -------------------------------------------------
        // 🚩🚩3.到达城市输入框获得焦点时触发
         // value 是选中的值，cb是回调函数，接收要展示的列表
-        queryDestSearch(value, callback) {
+        async queryDestSearch(value, callback) {
             //  if(value=='') return
             // 调用发送请求
-           this.airsSearchList(value,callback)
+          let showlist=await this.airsSearchList(value)
+           callback(showlist)
         
       },
 
@@ -132,18 +134,28 @@ export default {
           this.form.destCode = item.sort;
       },
 
-    //   // 封装搜索实时机票城市
-     async airsSearchList(value,callback){
+    // 📦📦封装搜索实时机票城市
+     async airsSearchList(value){
         //  if(value=='') return
           let res=await airsSearch(value)
              console.log(res);
+             if(res){
+               const arr=res.data.data.map(v=>{
+                // 🚩🚩🚩 这里注意不要拼接错误，这里的参数后期都要做的，参数平级
+                   return {...v,value:v.name.replace('市','')}
+               })
 
-             const arr=res.data.data.map(v=>{
-              // 🚩🚩🚩 这里注意不要拼接错误，这里的参数后期都要做的，参数平级
-                 return {...v,value:v.name.replace('市','')}
-                 })
+               if(arr.length==0){
+                  this.$confirm('没有这个城市', '提示', {
+                            confirmButtonText: '确定',
+                            showCancelButton: false,
+                            type: 'warning'
+                        })
+               }
+             return arr
+             }
+
             console.log(arr);
-            callback(arr)
       },
 // ------------------------------------------------------------
       //🚩🚩4.确认时期时触发
