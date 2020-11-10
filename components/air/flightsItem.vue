@@ -27,7 +27,7 @@
                     </el-row>
                 </el-col>
                 <el-col :span="6" class="flight-info-right">
-                    ￥<span class="sell-price">{{data.seat_infos[0].org_settle_price_child}}</span>起
+                    ￥<span class="sell-price">{{price}}</span>起
                 </el-col>
             </el-row>
         </div>
@@ -101,6 +101,20 @@ export default {
 
             }
             return `${Math.floor(dis / 60)}时${dis % 60}分`
+        },
+
+        // 计算最低票价，儿童票
+        price(){
+
+            let steerage=this.data.seat_infos[0].org_settle_price_child
+            for(let v in this.data.seat_infos){
+                console.log(11111111);
+                if(v.org_settle_price_child<steerage){
+                    console.log(111);
+                    steerage=v.org_settle_price_child
+                }
+                return steerage
+            }
 
         }
     }
