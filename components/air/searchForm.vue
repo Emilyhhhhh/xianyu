@@ -44,6 +44,7 @@
                 placeholder="请选择日期" 
                 style="width: 100%;"
                 @change="handleDate"
+                :picker-options="pickerOptions"
                 v-model="form.departDate">
                 </el-date-picker>
             </el-form-item>
@@ -70,6 +71,12 @@ import {airsSearch} from '@/myapi/user.js'
 export default {
     data () {
         return {
+           pickerOptions: {
+          disabledDate(time) {
+
+            // 这里返回 true 说明disabled 不可选
+            return time.getTime() <= Date.now()- 8.64e7;
+          }},
             tabs:[
                 {icon: "iconfont icondancheng", name: "单程"},
                 {icon: "iconfont iconshuangxiang", name: "往返"}
@@ -85,6 +92,8 @@ export default {
         }
     },
     methods:{
+     
+
         // 🚩🚩1.头部tab切换
         handleSearchTab(index){
             this.currentTab=index
