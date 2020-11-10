@@ -1,11 +1,13 @@
 //封装API基地址
-// // 本地服务器
+// 🚩🚩1.本地服务器
 // import axios from 'axios'
 // axios.defaults.baseURL = 'http://localhost:1337'
 // export default axios
 
 import { Message } from "element-ui";
-// 远程服务器
+
+
+// 🚩🚩2p.远程服务器
 // 创建一个 axios
 import axios from 'axios'
 const http = axios.create({

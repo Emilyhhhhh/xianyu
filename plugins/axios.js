@@ -1,5 +1,7 @@
 import { Message } from "element-ui";
 
+
+//封装nuxt自带的axios拦截器
 //🚩🚩如果在插件里面需要获取nuxt本身
 //需要export default
 
