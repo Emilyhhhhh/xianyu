@@ -10,14 +10,18 @@
                 <el-col :span="12">
                     <el-row type="flex" justify="space-between" class="flight-info-center">
                         <el-col :span="8" class="flight-airport">
+                             <!-- 起飞时间-->
                             <strong>{{data.dep_time}}</strong>
                             <span>{{data.org_airport_name+data.org_airport_quay}}</span>
                         </el-col>
                         <el-col :span="8" class="flight-time">
-                            <span>2时20分</span>
+                             <!-- 起飞时间和到达时间的间隔：需要手动计算-->
+                            <!-- <span>2时20分</span> -->
+                            <span>{{rankTime}}</span>
                         </el-col>
                         <el-col :span="8" class="flight-airport">
                             <strong>{{data.arr_time}}</strong>
+                             <!-- 到达时间-->
                             <span>{{data.dst_airport_name+data.dst_airport_quay}}</span>
                         </el-col>
                     </el-row>
@@ -72,10 +76,34 @@ export default {
 
     data () {
         return {
-           
             isshow:false
         }
     },
+    computed:{
+        // 计算间隔时间
+        rankTime(){
+            // 拆分时间
+            let dep= this.data.dep_time.split(':')
+            let arr= this.data.arr_time.split(':')
+            // console.log(dep,arr);
+            // 统计分钟
+            let depVal=Number(dep[0])*60+Number(dep[1])   //["19", "55"]   1195
+            let arrVal=Number(arr[0])*60+Number(arr[1])  //["22", "20"]
+            // console.log(depVal,arrVal);
+
+            // 到达时间-出发时间
+            let dis=arrVal-depVal
+            // console.log(dis);  //145
+
+            if(dis<0){
+                dis=arrVal+24*60-depVal
+                // console.log(dis);
+
+            }
+            return `${Math.floor(dis / 60)}时${dis % 60}分`
+
+        }
+    }
 }
 </script>
 
