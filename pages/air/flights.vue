@@ -16,7 +16,7 @@
                 <!-- 航班信息 -->
                 <div>
                      <!--🚩🚩2. 航班列表 -->
-                    <flightsItem/>
+                    <flightsItem v-for="(v,index) in dataList" :key="index" :data=v /> 
                 </div>
             </div>
 
@@ -31,9 +31,28 @@
 <script>
 import flightsListHead from '@/components/air/flightsListHead.vue'
 import flightsItem from '@/components/air/flightsItem.vue'
+import {airsList} from '@/myapi/user.js'
+
 export default {
+    data () {
+        return {
+            flightsData:{},   // 航班总数据
+            dataList: [],      //航班列表数据，循环渲染flightsItem组件，单独出来是因为要分页
+        }
+    },
+
     components: {
         flightsListHead,flightsItem
+    },
+     // 获取航班总数据
+    async mounted () {
+        let res = await airsList(this.$route.query)   //url上面的参数
+        this.flightsData=res.data
+        this.dataList = this.flightsData.flights;
+
+        console.log(this.flightsData);
+        console.log(this.dataList);
+
     }
 
 }

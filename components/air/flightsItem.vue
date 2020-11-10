@@ -1,43 +1,45 @@
 <template>
 <div>
-    <div class="flight-item" v-for="(v,index) in dataList" :key="index">
-        <div>
+    <div class="flight-item"  @click="isshow=!isshow">
+        <div >
             <!-- 显示的机票信息 -->
-            <el-row type="flex" align="middle" class="flight-info">
+            <el-row type="flex" align="middle" class="flight-info" >
                 <el-col :span="6">
-                    <span>{{v.airline_name}} </span>{{v.flight_no}}
+                    <span>{{data.airline_name}} </span>{{data.flight_no}}
                 </el-col>
                 <el-col :span="12">
                     <el-row type="flex" justify="space-between" class="flight-info-center">
                         <el-col :span="8" class="flight-airport">
-                            <strong>{{v.dep_time}}</strong>
-                            <span>{{v.org_airport_name+v.org_airport_quay}}</span>
+                            <strong>{{data.dep_time}}</strong>
+                            <span>{{data.org_airport_name+data.org_airport_quay}}</span>
                         </el-col>
                         <el-col :span="8" class="flight-time">
                             <span>2时20分</span>
                         </el-col>
                         <el-col :span="8" class="flight-airport">
-                            <strong>{{v.arr_time}}</strong>
-                            <span>{{v.dst_airport_name+v.dst_airport_quay}}</span>
+                            <strong>{{data.arr_time}}</strong>
+                            <span>{{data.dst_airport_name+data.dst_airport_quay}}</span>
                         </el-col>
                     </el-row>
                 </el-col>
                 <el-col :span="6" class="flight-info-right">
-                    ￥<span class="sell-price">{{v.seat_infos[0].org_settle_price_child}}</span>起
+                    ￥<span class="sell-price">{{data.seat_infos[0].org_settle_price_child}}</span>起
                 </el-col>
             </el-row>
         </div>
-        <div class="flight-recommend">
+        <div class="flight-recommend" v-if="isshow">
             <!-- 隐藏的座位信息列表 -->
             <el-row type="flex"  justify="space-between" align="middle">
                 <el-col :span="4">低价推荐</el-col>
                 <el-col :span="20">
-                    <el-row type="flex" justify="space-between" align="middle" class="flight-sell">
+                    <!--🚩🚩🚩 遍历多条信息 -->
+                    <el-row type="flex" justify="space-between" align="middle" class="flight-sell" v-for="(item, index) in data.seat_infos"
+                    :key="index" >
                         <el-col :span="16" class="flight-sell-left">
-                            <span>{{v.seat_infos[0].name}}</span> | {{v.seat_infos[0].supplierName}}
+                            <span>{{item.name}}</span> | {{item.supplierName}}
                         </el-col>
                         <el-col :span="5" class="price">
-                            ￥{{v.seat_infos[0].org_settle_price}}
+                            ￥{{item.org_settle_price}}
                         </el-col>
                         <el-col :span="3" class="choose-button">
                             <el-button 
@@ -45,7 +47,7 @@
                             size="mini">
                             选定
                             </el-button>
-                            <p>剩余：{{v.seat_infos[0].discount}}</p>
+                            <p>剩余：{{item.discount}}</p>
                         </el-col>
                     </el-row>
                 </el-col>
@@ -56,26 +58,24 @@
 </template>
 
 <script>
-import {airsList} from '@/myapi/user.js'
+
 export default {
+    // props:['data'],
+
+    props:{
+        // 父组件传入的数据
+        data: {
+            type: Object,
+            // 默认是空数组
+            default: {}
+        }},
+
     data () {
         return {
-            flightsData:{},   // 航班总数据
-            dataList: [],      //航班列表数据，循环渲染flightsItem组件，单独出来是因为要分页
+           
+            isshow:false
         }
     },
-     // 获取航班总数据
-    async mounted () {
-        let res = await airsList(this.$route.query)   //url上面的参数
-        this.flightsData=res.data
-        this.dataList = this.flightsData.flights;
-
-        console.log(this.flightsData);
-        console.log(this.dataList);
-
-
-    }
-
 }
 </script>
 
