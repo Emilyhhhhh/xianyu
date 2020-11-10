@@ -43,7 +43,10 @@
       <el-row type="flex" class="air-sale-pic" justify="space-between">
             <el-col :span="6" v-for="(item, index) in sales" :key="index">
                 <nuxt-link :to="`/air/flights?departCity=${item&&item.departCity}&departCode=${item&&item.departCode}&destCity=${item&&item.destCity}&destCode=${item&&item.destCode}&departDate=${item&&item.departDate}`">
-                    <img :src="'http://157.122.54.189:9095'+item.cover"/>
+                    <!-- <img :src="'http://157.122.54.189:9095'+item.cover"/> -->
+
+                    <img :src="$axios.defaults.baseURL+item.cover"/>
+                    
                     <el-row class="layer-bar" type="flex" justify="space-between">
                         <span>{{item&&item.departCity}}-{{item&&item.destCity}}</span>
                         <span>￥{{item.price}}</span>
@@ -59,7 +62,7 @@
 // import myaxios from '@/plugins/axios.js'
 import searchForm from '@/components/air/searchForm.vue'
 import {airsSale} from '@/myapi/user.js'
-import axios from '@/utils/api.js'
+// import http from '@/utils/api.js'
 export default {
   data () {
     return {
@@ -73,6 +76,7 @@ export default {
   async mounted () {
     let res =await airsSale()
     this.sales=res.data.data
+    
     // this.sales=res.data.data.map(v=>{
     //   console.log(v.cover=axios.defaults.baseURL+v.cover);
     //   v.cover=axios.defaults.baseURL+v.cover

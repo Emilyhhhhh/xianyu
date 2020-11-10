@@ -1,4 +1,4 @@
-//封装API基地址
+//🚩🚩🚩🚩封装下载的axios,不是nuxt自带的，，，，
 // 🚩🚩1.本地服务器
 // import axios from 'axios'
 // axios.defaults.baseURL = 'http://localhost:1337'
@@ -7,12 +7,14 @@
 import { Message } from "element-ui";
 
 
-// 🚩🚩2p.远程服务器
+// 🚩🚩2.远程服务器
 // 创建一个 axios
 import axios from 'axios'
 const http = axios.create({
     baseURL: 'http://157.122.54.189:9095'
 })
+
+// axios.defaults.baseURL = 'http://157.122.54.189:9095'
 
 http.interceptors.response.use(
     res => {
