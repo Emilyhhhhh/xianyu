@@ -14,13 +14,17 @@
             <el-form-item label="出发城市">
                 <!-- fetch-suggestions 返回输入建议的方法 -->
                 <!-- select 点击选中建议项时触发 -->
-                <!-- autocomplete 是一个可带输入建议的输入框组件 -->
+                <!-- autocomplete 是一个可带输入建议的输入框组件
+                :highlight-first-item='true' 第一项高亮，回车可选中
+                 :trigger-on-focus='false' 聚焦时不出来列表-->
                 <el-autocomplete
                 :fetch-suggestions="queryDepartSearch"
                 placeholder="请搜索出发城市"
                 @select="handleDepartSelect"
                 class="el-autocomplete"
                 v-model="form.departCity"
+                :trigger-on-focus='false'
+                :highlight-first-item='true'
                 ></el-autocomplete>
             </el-form-item>
           <el-form-item label="到达城市">
@@ -29,6 +33,8 @@
                 placeholder="请搜索到达城市"
                 @select="handleDestSelect"
                 class="el-autocomplete"
+                :trigger-on-focus='false'
+                :highlight-first-item='true'
                 v-model="form.destCity"
                 ></el-autocomplete>
             </el-form-item>
