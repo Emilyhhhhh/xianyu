@@ -91,10 +91,19 @@ export default {
         }
     },
     methods: {
+        // 选择航空公司时候触发
         handleAirport(){},
+
+        // 选择出发时间时候触发
         handleFlightTimes(){},
+
+        // 选择航空公司时候触发
         handleCompany(){},
+
+        // 选择航空公司时候触发
         handleAirSize(){},
+
+        // 撤销条件时候触发
         handleFiltersCancel(){},
     }
 
