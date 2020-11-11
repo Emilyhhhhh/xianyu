@@ -145,6 +145,12 @@ export default {
 
         // 撤销条件时候触发
         handleFiltersCancel(value){
+            // 1. 清空所有筛选的选项
+            this.airport='',
+            this.flightTimes='',
+            this.company='',
+            this.airSize=''
+             this.$emit('setDAataList',this.data.flights)
 
         },
     }
