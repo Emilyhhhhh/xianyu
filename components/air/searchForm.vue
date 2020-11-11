@@ -239,6 +239,8 @@ export default {
                 // this.$route.params 动态路由参数
                 // 其实在跳转的时候, 也能用query作为数据进行跳转
                 // 将本来字符串变成对象即可
+
+                this.$store.commit('history/addHistory',this.form)
               
                this.$router.push({
                     path: "/air/flights",
