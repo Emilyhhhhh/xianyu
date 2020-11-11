@@ -51,7 +51,7 @@
                             size="mini">
                             选定
                             </el-button>
-                            <p>剩余：{{item.discount}}</p>
+                            <p v-if="item.nums!='A'">剩余：{{item.nums}}</p>
                         </el-col>
                     </el-row>
                 </el-col>
@@ -105,7 +105,6 @@ export default {
 
         // 计算最低票价，儿童票
         price(){
-
             let steerage=this.data.seat_infos[0].org_settle_price_child
             for(let v in this.data.seat_infos){
                 console.log(11111111);
@@ -115,7 +114,6 @@ export default {
                 }
                 return steerage
             }
-
         }
     }
 }
