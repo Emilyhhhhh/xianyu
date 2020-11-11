@@ -33,6 +33,8 @@
             <!-- 侧边栏 -->
             <div class="aside">
                 <!-- 侧边栏组件 -->
+                <flightsAside/>
+
             </div>
         </el-row>
     </section>
@@ -42,6 +44,7 @@
 import flightsListHead from '@/components/air/flightsListHead.vue'
 import flightsItem from '@/components/air/flightsItem.vue'
 import flightsFilters from '@/components/air/flightsFilters.vue'
+import flightsAside from '@/components/air/flightsAside.vue'
 import {airsList} from '@/myapi/user.js'
 
 export default {
@@ -60,7 +63,7 @@ export default {
         }
     },
     components: {
-        flightsListHead,flightsItem,flightsFilters
+        flightsListHead,flightsItem,flightsFilters,flightsAside
     },
      // 获取航班总数据
      mounted () {
