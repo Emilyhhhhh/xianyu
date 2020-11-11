@@ -28,6 +28,7 @@
                      <!--🚩🚩2. 航班列表 -->
                     <flightsItem v-for="(v,index) in dataList" :key="index" :data=v /> 
                 </div>
+                <div class="tip" v-else>暂无数据</div>
             </div>
 
             <!-- 侧边栏 -->
@@ -89,12 +90,9 @@ export default {
 
            // 原来的数组，用于做分页列表总数total
            this.flightsData=res.data
-        
-           // 用来给flightsItem组件渲染航班列表
-           // this.dataList = this.flightsData.flights;
    
            console.log('this.flightsData',this.flightsData);
-           console.log('this.dataList',this.dataList);
+
 
         /* 缓存一份新的列表数据数据，这个列表不会被修改
         而 flightsData 会被修改，注意这里需要使用 ES9 的解构对象，或者
