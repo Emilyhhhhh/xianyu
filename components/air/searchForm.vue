@@ -53,7 +53,7 @@
                 <el-button style="width:100%;" 
                 type="primary" 
                 icon="el-icon-search"
-                @click="handleSubmit">
+                @click="handleSubmit" @keydown.enter="handleSubmit">
                     搜索
                 </el-button>
             </el-form-item>
