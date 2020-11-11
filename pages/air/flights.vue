@@ -5,9 +5,7 @@
             <!-- 顶部过滤列表 -->
             <div class="flights-content">
                 <!-- 过滤条件 -->
-                <div>
-                    
-                </div>
+                <flightsFilters :data=cacheFlightsData />
                 
                 <!--🚩🚩1. 航班头部布局 -->
                 <flightsListHead/>
@@ -18,6 +16,7 @@
                      <!--🚩🚩2. 航班列表 -->
                     <flightsItem v-for="(v,index) in dataList" :key="index" :data=v /> 
 
+                    <!-- 🚩🚩3. 分页组件 -->
                      <el-pagination
                        @size-change="handleSizeChange"
                        @current-change="handleCurrentChange"
@@ -26,6 +25,7 @@
                        :page-size="pageSize"
                        layout="total, sizes, prev, pager, next, jumper"
                        :total="flightsData.total">
+                       <!-- 原来的总数量 -->
                      </el-pagination>
                 </div>
             </div>
@@ -41,6 +41,7 @@
 <script>
 import flightsListHead from '@/components/air/flightsListHead.vue'
 import flightsItem from '@/components/air/flightsItem.vue'
+import flightsFilters from '@/components/air/flightsFilters.vue'
 import {airsList} from '@/myapi/user.js'
 
 export default {
@@ -50,10 +51,16 @@ export default {
             dataList: [],      //航班列表数据，循环渲染flightsItem组件，单独出来是因为要分页
             pageIndex: 1, // 当前页数
             pageSize: 5,  // 显示条数
+
+            cacheFlightsData: { // 缓存一份数据，只会修改一次
+                flights: [],     
+                info: {},
+                options: {}
+            }, 
         }
     },
     components: {
-        flightsListHead,flightsItem
+        flightsListHead,flightsItem,flightsFilters
     },
      // 获取航班总数据
      mounted () {
@@ -65,10 +72,19 @@ export default {
            this.flightsData=res.data
            this.dataList = this.flightsData.flights;
    
-           console.log(this.flightsData);
-           console.log(this.dataList);
+           console.log('this.flightsData',this.flightsData);
+           console.log('this.dataList',this.dataList);
            // 因为获取的数据是整个数据，所以需要自己手动分   数据
            this.setDAataList()   //调用手动分页的方法
+
+
+        /* 缓存一份新的列表数据数据，这个列表不会被修改
+        而 flightsData 会被修改，注意这里需要使用 ES9 的解构对象，或者
+        Object.assign() 静态方法进行对象的复制，否则会出现引用赋值的现象，两个变量
+        指向同一个对象 */
+        
+           this.cacheFlightsData={...res.data}
+           console.log(this.cacheFlightsData);
         },
 
         setDAataList(){
