@@ -8,7 +8,7 @@
                 {{data.info.departDate}}
             </el-col>
             <el-col :span="4">
-                <el-select size="mini" v-model="airport" placeholder="起飞机场" @change="handleAirport">
+                <el-select size="mini" v-model="airport" placeholder="起飞机场" @change="runFilters">
                     <el-option
                     :label="v"
                     :value="v"
@@ -17,7 +17,7 @@
                 </el-select>
             </el-col>
             <el-col :span="4">
-                <el-select size="mini" v-model="flightTimes"  placeholder="起飞时间" @change="handleFlightTimes">
+                <el-select size="mini" v-model="flightTimes"  placeholder="起飞时间" @change="runFilters">
                      <!-- 由于我们的筛选不经过后台, 这里的 value 可以随便定
                     只要后面写筛选, 根据这里的 value 值去过滤即可 -->
                     <el-option
@@ -28,7 +28,7 @@
                 </el-select>
             </el-col>
             <el-col :span="4">
-                <el-select size="mini" v-model="company"  placeholder="航空公司" @change="handleCompany">
+                <el-select size="mini" v-model="company"  placeholder="航空公司" @change="runFilters">
                     <el-option
                     :label="v"
                     :value="v" v-for="(v,i) in data.options.company" :key='i'>
@@ -37,7 +37,7 @@
             </el-col>
             <el-col :span="4">
                 <!-- 这个大中小型号没有数据，需要自己编 -->
-                <el-select size="mini" v-model="airSize" placeholder="机型" @change="handleAirSize">
+                <el-select size="mini" v-model="airSize" placeholder="机型" @change="runFilters">
                     <el-option
                     :label="v.label"
                     :value="v.value"
@@ -92,59 +92,88 @@ export default {
         }
     },
     methods: {
+        // 解决每次过滤都会使用原始数据, 每一个过滤器都会覆盖上一个过滤器的结果
+        runFilters(){
+            let flights=[...this.data.flights]
+            console.log(flights);
+            // 选了就会有值，有值就拿去跟数据对比，过滤出值一样的新数组
+            if(this.airport){
+                console.log(11);
+                flights=this.handleAirport(flights)
+                console.log(flights);
+            }
+            if(this.flightTimes){
+               flights=this.handleFlightTimes(flights)
+                console.log(flights);
+            }
+            if(this.company){
+              flights=this.handleCompany(flights)
+                console.log(flights);
+            }
+            if(this.airSize){
+               flights=this.handleAirSize(flights)
+                console.log(flights);
+            }
+            this.$emit('setDAataList',flights)
+
+        }, 
         // 选择机场时候触发
-        handleAirport(value){
-            console.log(value);  //选的那个选项
-            console.log(this.data);
-            let newList=this.data.flights.filter(v=>{
-                return v.org_airport_name===value
+        handleAirport(flights){
+            console.log(flights);  //选的那个选项
+            let newList=flights.filter(v=>{
+                return v.org_airport_name===this.airport
             })
             console.log(newList);
+            return newList
         },
 // --------------------------------------------------------------
 
         // 选择出发时间时候触发
-        handleFlightTimes(value){
+        handleFlightTimes(flights){
             // 分割选出来的时间：0-6
-            let [from,to]=value.split(',')
+             const from = Number(this.flightTimes.split(',')[0])
+             const to = Number(this.flightTimes.split(',')[1])
             console.log(from,to);
 
-            let newList=this.data.flights.filter(v=>{
+            let newList=flights.filter(v=>{
                 // 过滤出 在上面分割时间内的数据：0<=time<=6
                 let time=Number(v.dep_time.split(':')[0]) 
                 console.log(time,typeof time);
                 return time >= from && time < to
             })   
             console.log(newList);
-            this.$emit('setDAataList',newList)
+            // this.$emit('setDAataList',newList)
+            return newList
         },
 // --------------------------------------------------------------
         // 选择航空公司时候触发
-        handleCompany(value){
+        handleCompany(flights){
             // 返回value=airline_name的新数组
-            let newList=this.data.flights.filter(v=>{
-                return v.airline_name===value
+            let newList=flights.filter(v=>{
+                return v.airline_name===this.company
             })
             console.log(newList);
-            this.$emit('setDAataList',newList)
+            // this.$emit('setDAataList',newList)
+            return newList
         },
 // --------------------------------------------------------------
 
         // 选择机型的时候触发
-        handleAirSize(value){
-            console.log(value);
-            let newList=this.data.flights.filter(v=>{
-                return v.plane_size===value
+        handleAirSize(flights){
+            console.log(flights);
+            let newList=flights.filter(v=>{
+                return v.plane_size===this.airSize
             })
             console.log(newList);
-            this.$emit('setDAataList',newList)
+            // this.$emit('setDAataList',newList)
+            return newList
 
 
         },
 // --------------------------------------------------------------
 
         // 撤销条件时候触发
-        handleFiltersCancel(value){
+        handleFiltersCancel(flights){
             // 1. 清空所有筛选的选项
             this.airport='',
             this.flightTimes='',
