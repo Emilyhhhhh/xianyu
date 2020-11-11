@@ -101,10 +101,24 @@ export default {
             })
             console.log(newList);
         },
+// --------------------------------------------------------------
 
         // 选择出发时间时候触发
-        handleFlightTimes(){},
+        handleFlightTimes(value){
+            // 分割选出来的时间：0-6
+            let [from,to]=value.split(',')
+            console.log(from,to);
 
+            let newList=this.data.flights.filter(v=>{
+                // 过滤出 在上面分割时间内的数据：0<=time<=6
+                let time=Number(v.dep_time.split(':')[0]) 
+                console.log(time,typeof time);
+                return time >= from && time < to
+            })   
+            console.log(newList);
+            this.$emit('setDAataList',newList)
+        },
+// --------------------------------------------------------------
         // 选择航空公司时候触发
         handleCompany(value){
             // 返回value=airline_name的新数组
@@ -114,12 +128,25 @@ export default {
             console.log(newList);
             this.$emit('setDAataList',newList)
         },
+// --------------------------------------------------------------
 
-        // 选择航空公司时候触发
-        handleAirSize(){},
+        // 选择机型的时候触发
+        handleAirSize(value){
+            console.log(value);
+            let newList=this.data.flights.filter(v=>{
+                return v.plane_size===value
+            })
+            console.log(newList);
+            this.$emit('setDAataList',newList)
+
+
+        },
+// --------------------------------------------------------------
 
         // 撤销条件时候触发
-        handleFiltersCancel(){},
+        handleFiltersCancel(value){
+
+        },
     }
 
 }
