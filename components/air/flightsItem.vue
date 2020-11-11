@@ -105,11 +105,10 @@ export default {
 
         // 计算最低票价，儿童票
         price(){
+            // 先定义一个票价，再来比较，谁最低就return出来
             let steerage=this.data.seat_infos[0].org_settle_price_child
             for(let v in this.data.seat_infos){
-                console.log(11111111);
                 if(v.org_settle_price_child<steerage){
-                    console.log(111);
                     steerage=v.org_settle_price_child
                 }
                 return steerage
