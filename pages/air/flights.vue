@@ -96,6 +96,11 @@ export default {
         //   不减1 最后一页  第五页是没有数据的
           let start=(this.pageIndex-1)*this.pageSize
           let end=this.pageSize+start
+
+          //let end=this.pageIndex*this.pageSize
+          //let start=end-this.pageSize
+          
+        //   这里是切割原数组的数据，分页操作
           this.dataList =this.flightsData.flights.slice(start,end)
         },
 
