@@ -83,6 +83,11 @@ export default {
 
         }
     },
+    watch: {
+      $route(){
+          this.getData()
+      }  
+    },
     methods:{
         // 获取航班总数据
         async getData () {
