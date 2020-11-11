@@ -12,7 +12,8 @@
                 
                 
                 <!-- 航班信息 -->
-                <div>
+                <!-- 🚩🚩4.没有数据就不显示了 -->
+                <div v-if="dataList.length>0">
                      <!--🚩🚩2. 航班列表 -->
                     <flightsItem v-for="(v,index) in dataList" :key="index" :data=v /> 
 
@@ -65,11 +66,11 @@ export default {
     components: {
         flightsListHead,flightsItem,flightsFilters,flightsAside
     },
-     // 获取航班总数据
      mounted () {
-        this.getData ()
+         this.getData ()
     },
     methods:{
+     // 获取航班总数据
         async getData () {
            let res = await airsList(this.$route.query)   //   url上面的参数
            this.flightsData=res.data
