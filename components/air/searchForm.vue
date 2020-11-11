@@ -85,14 +85,14 @@ export default {
             form:{
                 departCity: "", // 出发城市
                 departCode: "", // 出发城市代码
-                departDate: "", // 日期字符串
+                departDate: moment(new Date()).format("YYYY-MM-DD"), // 日期字符串
                 destCity: "",  // 到达城市
                 destCode: "",  // 到达城市代码
             }
         }
     },
+
     methods:{
-     
 
         // 🚩🚩1.头部tab切换
         handleSearchTab(index){
@@ -239,6 +239,7 @@ export default {
                 // this.$route.params 动态路由参数
                 // 其实在跳转的时候, 也能用query作为数据进行跳转
                 // 将本来字符串变成对象即可
+              
                this.$router.push({
                     path: "/air/flights",
                     query: this.form
