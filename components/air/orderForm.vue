@@ -1,12 +1,12 @@
 <template>
     <div class="main">
         <div class="air-column">
-            <h2>剩机人</h2>
+            <h2>乘机人</h2>
             <el-form class="member-info">
-                <div class="member-info-item" >
+                <div class="member-info-item" v-for="(value,index) in users" :key='index'>
 
-                    <el-form-item label="乘机人类型">
-                        <el-input placeholder="姓名" class="input-with-select">
+                    <el-form-item label="乘机人姓名">
+                        <el-input v-model="value.username" placeholder="请输入姓名" class="input-with-select">
                             <el-select 
                             slot="prepend" 
                             value="1" 
@@ -18,7 +18,8 @@
 
                     <el-form-item label="证件类型">
                         <el-input 
-                        placeholder="证件号码"  class="input-with-select">
+                         v-model="value.id"
+                        placeholder="请输入证件号码"  class="input-with-select">
                             <el-select 
                             slot="prepend" 
                             value="1"           
@@ -28,7 +29,7 @@
                         </el-input>
                     </el-form-item>
 
-                    <span class="delete-user" @click="handleDeleteUser()">-</span>
+                    <span class="delete-user" @click="handleDeleteUser(index)">-</span>
                 </div>
             </el-form>
 
@@ -75,6 +76,51 @@
 
 <script>
 export default {
+    props: ['data'],
+    data () {
+        return {
+            users:[
+                // 乘机人信息
+                {
+                    username:'',
+                    id:''
+                }
+            ]
+            
+        }
+    },
+    methods: {
+        // 移除乘机人
+        handleDeleteUser(index){
+            // console.log(index);
+            this.users.splice(index,1)
+
+        },
+        // 添加乘机人
+        handleAddUsers(){
+            console.log(this.users);
+            // this.users.push({
+            //     username:'',
+            //     id:''
+            // })
+            this.users=[
+                ...this.users,
+                {
+                   username:'',
+                    id:'' 
+                }
+            ]
+
+        },
+        // 发送验证码
+         handleSendCaptcha(){
+
+        },
+        // 提交订单
+         handleSubmit(){
+
+        },
+    }
 
 }
 </script>
