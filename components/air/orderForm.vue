@@ -44,7 +44,7 @@
                     <el-checkbox 
                     :label="item.id" 
                     border>
-                    {{item.type}}：￥{{item.price}}/份× {{users.length}} {{item.price}}  最高赔付 {{item.compensation}}
+                    {{item.type}}：￥{{item.price}}/份× {{users.length}}  最高赔付 {{item.compensation}}
                     </el-checkbox> 
                   </div>
                 </el-checkbox-group>
@@ -56,11 +56,11 @@
             <div class="contact">
                 <el-form label-width="60px">
                     <el-form-item label="姓名">
-                        <el-input></el-input>
+                        <el-input v-model="contactName"></el-input>
                     </el-form-item>
 
                     <el-form-item label="手机">
-                        <el-input placeholder="请输入内容">
+                        <el-input placeholder="请输入内容"  v-model="contactPhone">
                             <template slot="append">
                             <el-button @click="handleSendCaptcha">发送验证码</el-button>
                             </template>
@@ -68,8 +68,10 @@
                     </el-form-item>
 
                     <el-form-item label="验证码">
-                        <el-input></el-input>
+                        <el-input v-model="captcha"></el-input>
                     </el-form-item>
+                <el-checkbox  v-model="invoice">是否需要发票
+                    </el-checkbox> 
                 </el-form>   
                 <el-button type="warning" class="submit" @click="handleSubmit">提交订单</el-button>
             </div>
@@ -78,6 +80,7 @@
 </template>
 
 <script>
+import {captchas} from '@/myapi/user.js'
 export default {
     props: ['data'],
     data () {
@@ -88,12 +91,15 @@ export default {
                 // 里面的每个对象都是一个乘机人
                 // 添加删除的实话, 只需要 push / splice
                 {
-                    username:'',
-                    id:''
+                    username:'xiaobai',
+                    id:'441611111111111111'
                 }
             ],
-            insurances:[]
-            
+            insurances:[],     //保险id
+            contactName:'xiaobai',     //联系人名字
+            contactPhone:'13722222222',    //电话
+            invoice:false,      //是否需要发票
+            captcha:'000000'
         }
     },
     methods: {
@@ -119,8 +125,9 @@ export default {
             ]
         },
         // 发送验证码
-         handleSendCaptcha(){
-
+        async handleSendCaptcha(){
+             let res = await captchas(this.contactPhone)
+             console.log(res);
         },
         // 提交订单
          handleSubmit(){
