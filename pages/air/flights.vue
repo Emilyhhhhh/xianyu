@@ -85,6 +85,7 @@ export default {
     },
     watch: {
       $route(){
+          this.pageIndex=1
           this.getData()
       }  
     },
