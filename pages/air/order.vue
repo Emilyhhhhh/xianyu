@@ -3,7 +3,7 @@
         <el-row type="flex" justify="space-between">
             <!-- 订单表单 -->
             <div class="main">
-                <orderForm :data='infoData' />
+                <orderForm v-if="formData.insurances" :data='formData' />
                 
             </div>
 
@@ -24,9 +24,8 @@ export default {
     data () {
         return {
             //机票信息
-            infoData:{
-                insurances:[]    //初始化保险数据
-            }
+            formData:{}
+ 
         }
     },
     mounted () {
@@ -39,9 +38,9 @@ export default {
             }
         // 注意data传参的格式，不然会报400
         }).then(res=>{
-            this.insurances=res.data
+            this.formData=res.data
             console.log(res);
-            console.log(this.insurances);
+            console.log(this.formData);
         })
 
     }

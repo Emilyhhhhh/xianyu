@@ -39,12 +39,15 @@
         <div class="air-column">
             <h2>保险</h2>
             <div>
-                <div class="insurance-item">
+                <el-checkbox-group v-model="insurances">
+                  <div class="insurance-item" v-for="(item) in data.insurances" :key="item.id">
                     <el-checkbox 
-                    label="航空意外险：￥30/份×1  最高赔付260万" 
+                    :label="item.id" 
                     border>
+                    {{item.type}}：￥{{item.price}}/份× {{users.length}} {{item.price}}  最高赔付 {{item.compensation}}
                     </el-checkbox> 
-                </div>
+                  </div>
+                </el-checkbox-group>
             </div>
         </div>
 
@@ -81,11 +84,15 @@ export default {
         return {
             users:[
                 // 乘机人信息
+                // 乘机人应该是一个数组
+                // 里面的每个对象都是一个乘机人
+                // 添加删除的实话, 只需要 push / splice
                 {
                     username:'',
                     id:''
                 }
-            ]
+            ],
+            insurances:[]
             
         }
     },
@@ -110,7 +117,6 @@ export default {
                     id:'' 
                 }
             ]
-
         },
         // 发送验证码
          handleSendCaptcha(){
@@ -118,6 +124,7 @@ export default {
         },
         // 提交订单
          handleSubmit(){
+             console.log(this.data);
 
         },
     }

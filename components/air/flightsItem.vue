@@ -49,7 +49,13 @@
                         <el-col :span="3" class="choose-button">
                             <el-button 
                             type="warning" 
-                            size="mini" @click="$router.push({path:'order'})">
+                            size="mini" @click="$router.push({
+                                path: '/air/order',
+                                query:{
+                                    id:data.id,
+                                    seat_xid:item.seat_xid
+                                }})">
+                                <!-- 跳转后的页面的保险数据渲染是需要这两个参数的，所以这里带过去-->
                             选定
                             </el-button>
                             <p v-if="item.nums!='A'">剩余：{{item.nums}}</p>
