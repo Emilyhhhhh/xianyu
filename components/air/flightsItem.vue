@@ -1,6 +1,7 @@
 <template>
 <div>
-    <div class="flight-item"  @click="isshow=!isshow">
+    <!-- <div class="flight-item"  @click="isshow=!isshow"> -->
+    <div class="flight-item"  >
         <div >
             <!-- 显示的机票信息 -->
             <el-row type="flex" align="middle" class="flight-info" >
@@ -72,13 +73,15 @@ export default {
             type: Object,
             // 默认是空数组
             default: {}
-        }},
+        },
+        isshow:Boolean
+        },
 
-    data () {
-        return {
-            isshow:false
-        }
-    },
+    // data () {
+    //     return {
+    //         isshow:false
+    //     }
+    // },
     computed:{
         // 计算间隔时间
         rankTime(){

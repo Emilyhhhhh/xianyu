@@ -26,7 +26,7 @@
                 <!-- 🚩🚩4.没有数据就不显示了 -->
                 <div v-if="dataList.length>0">
                      <!--🚩🚩2. 航班列表 -->
-                    <flightsItem v-for="(v,index) in dataList" :key="index" :data=v /> 
+                    <flightsItem @click.native="handleclick(index)" v-for="(v,index) in dataList" :key="index" :data=v :isshow='currentIndex==index' /> 
                 </div>
                 <div class="tip" v-else>暂无数据</div>
             </div>
@@ -51,6 +51,7 @@ import {airsList} from '@/myapi/user.js'
 export default {
     data () {
         return {
+            currentIndex:0,
             flightsData:{},   // 航班总数据
             // dataList: [],      //航班列表数据，循环渲染flightsItem组件，单独出来是因为要分页
             pageIndex: 1, // 当前页数
@@ -90,6 +91,14 @@ export default {
       }  
     },
     methods:{
+        handleclick(index){
+            console.log(index);
+          if(this.currentIndex==index){
+                this.currentIndex=null
+          }else{
+                this.currentIndex=index
+          }
+        },
         // 获取航班总数据
         async getData () {
            let res = await airsList(this.$route.query)   //   url上面的参数
