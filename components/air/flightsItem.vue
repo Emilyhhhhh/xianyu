@@ -48,7 +48,7 @@
                         <el-col :span="3" class="choose-button">
                             <el-button 
                             type="warning" 
-                            size="mini">
+                            size="mini" @click="$router.push({path:'order'})">
                             选定
                             </el-button>
                             <p v-if="item.nums!='A'">剩余：{{item.nums}}</p>
