@@ -9,7 +9,7 @@
 
             <!-- 侧边栏 -->
             <div class="aside">
-                          
+                <orderAside v-if="formData.insurances" :data='formData' />
             </div>
         </el-row>
     </div>
@@ -17,9 +17,10 @@
 
 <script>
 import orderForm from '@/components/air/orderForm.vue'
+import orderAside from '@/components/air/orderAside.vue'
 export default {
     components: {
-        orderForm
+        orderForm,orderAside
     },
     data () {
         return {
