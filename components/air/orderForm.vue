@@ -35,7 +35,7 @@
 
             <el-button class="add-member" type='primary' @click="handleAddUsers">添加乘机人</el-button>
         </div>
-
+            
         <div class="air-column">
             <h2>保险</h2>
             <div>
@@ -76,6 +76,7 @@
                 <el-button type="warning" class="submit" @click="handleSubmit">提交订单</el-button>
             </div>
         </div>
+    <span style="display:none">{{totalPrice}}</span>
     </div>
 </template>
 
@@ -157,6 +158,16 @@ export default {
              
 
         },
+    },
+    computed:{
+        totalPrice(){
+            let res=0
+            // 机票价格=机票*人数
+            res=this.data.seat_infos.org_settle_price*this.users.length
+            this.$emit('totalPrice',res)
+            return res
+        }
+
     }
 
 }

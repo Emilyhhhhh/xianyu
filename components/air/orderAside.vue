@@ -41,7 +41,7 @@
         </el-row>
         <el-row type="flex" justify="space-between" align="middle" class="info-bar">
             <span>应付总额：</span>
-            <span class="price">￥ </span>
+            <span class="price">￥{{totalPrice}} </span>
         </el-row>           
     </div>
 </template>
@@ -52,7 +52,8 @@ export default {
         data: {
             type: Object,
             default: {}
-        }
+        },
+        totalPrice:0
     },
 
     computed: {

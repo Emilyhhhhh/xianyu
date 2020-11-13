@@ -3,13 +3,13 @@
         <el-row type="flex" justify="space-between">
             <!-- 订单表单 -->
             <div class="main">
-                <orderForm v-if="formData.insurances" :data='formData' />
+                <orderForm v-if="formData.insurances" :data='formData' @totalPrice='priceChange' />
                 
             </div>
 
             <!-- 侧边栏 -->
             <div class="aside">
-                <orderAside v-if="formData.insurances" :data='formData' />
+                <orderAside v-if="formData.insurances" :data='formData' :totalPrice='totalPrice' />
             </div>
         </el-row>
     </div>
@@ -25,12 +25,12 @@ export default {
     data () {
         return {
             //机票信息
-            formData:{}
+            formData:{},
+            totalPrice:''
  
         }
     },
     mounted () {
-
         this.$axios({
             url: '/airs/'+this.$route.query.id,
             params:{
@@ -40,11 +40,18 @@ export default {
         // 注意data传参的格式，不然会报400
         }).then(res=>{
             this.formData=res.data
-            console.log(res);
-            console.log(this.formData);
+            console.log('res',res);
+            console.log('传过去的数据',this.formData);
         })
+    },   
+    methods: {
+        priceChange(price){
+            this.totalPrice=price
+        }
 
     }
+        
+    
 
 }
 </script>
