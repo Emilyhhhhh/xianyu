@@ -144,6 +144,12 @@ export default {
              }
              console.log(this.data);
              console.log(data);
+
+             //提交完了需要等一段时间
+             this.$message.success({
+                 message:'正在生成订单！请稍等',
+                 duration:1000})
+
             //  发送请求
              this.$axios({
                  url:'/airorders',
@@ -155,6 +161,8 @@ export default {
              }).then(res=>{
                  console.log(res);
                  this.$message.success(res.data.message)
+                 //跳转到付款页
+                 this.$router.push({path:'/air/pay'})
 
              })
         },
