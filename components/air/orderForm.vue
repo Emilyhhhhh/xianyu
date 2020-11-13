@@ -100,7 +100,9 @@ export default {
             contactName:'xiaobai',     //联系人名字
             contactPhone:'13722222222',    //电话
             invoice:false,      //是否需要发票
-            captcha:'000000'
+            captcha:'000000',
+
+
         }
     },
     methods: {
@@ -127,7 +129,10 @@ export default {
         },
         // 发送验证码
         async handleSendCaptcha(){
-             let res = await captchas(this.contactPhone)
+            let res = await captchas(this.contactPhone)
+            if(res.status==200){
+                this.$message.success('验证码发送成功')
+            }
              console.log(res);
         },
         // 提交订单
@@ -142,8 +147,8 @@ export default {
                 seat_xid:this.$route.query.seat_xid,
                 air:this.$route.query.id
              }
-             console.log(this.data);
-             console.log(data);
+            //  console.log(this.data);
+            //  console.log(data);
 
              //提交完了需要等一段时间
              this.$message.success({
@@ -161,8 +166,11 @@ export default {
              }).then(res=>{
                  console.log(res);
                  this.$message.success(res.data.message)
+                 let id=res.data.data.id
                  //跳转到付款页
-                 this.$router.push({path:'/air/pay'})
+                 this.$router.push({
+                     path:'/air/pay',
+                     query:{id}})
 
              })
         },

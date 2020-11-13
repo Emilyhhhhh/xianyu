@@ -27,6 +27,25 @@
 
 <script>
 export default {
+    data () {
+        return {
+            
+        }
+    },
+    mounted(){
+        // userInfo在页面加载完才赋值，一开始没有token，要等一下
+        setTimeout(v=>{
+            this.$axios({
+                url:'airorders/'+this.$route.query.id,
+                headers:{
+                    Authorization:'Bearer '+this.$store.state.userstore.userInfo.token
+                }
+            }).then(res=>{
+                console.log(res);
+            })
+        },200)
+
+    }
 
 }
 </script>
