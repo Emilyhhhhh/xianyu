@@ -40,7 +40,7 @@
             <h2>保险</h2>
             <div>
                 <el-checkbox-group v-model="insurances">
-                  <div class="insurance-item" v-for="(item) in data.insurances" :key="item.id">
+                  <div class="insurance-item" v-for="(item,index) in data.insurances" :key="index">
                     <el-checkbox 
                     :label="item.id" 
                     border>
@@ -132,9 +132,8 @@ export default {
         },
         // 提交订单
          handleSubmit(){
-             console.log(this.data);
              let data= {
-                users:this.users,
+                 users:this.users,
                 insurances:this.insurances,    
                 contactName:this.contactName,   
                 contactPhone:this.contactPhone,    
@@ -143,6 +142,8 @@ export default {
                 seat_xid:this.$route.query.seat_xid,
                 air:this.$route.query.id
              }
+             console.log(this.data);
+             console.log(data);
             //  发送请求
              this.$axios({
                  url:'/airorders',
@@ -154,16 +155,33 @@ export default {
              }).then(res=>{
                  console.log(res);
                  this.$message.success(res.data.message)
-             })
-             
 
+             })
         },
     },
+
     computed:{
         totalPrice(){
             let res=0
             // 机票价格=机票*人数
             res=this.data.seat_infos.org_settle_price*this.users.length
+            console.log(res);
+
+            //保险价格=保险*人数
+            //几个id就是几份保险，人数是绑定式的，一般要买都买  不买都不买
+           this.insurances.forEach(id=>{
+            //    第一层取到选中的保险id
+               this.data.insurances.forEach(dataId=>{
+                //    遍历原始数据的id
+                   if(dataId.id==id){
+
+                    res+=dataId.price*this.users.length
+                   }
+               })
+           })
+            console.log(res);
+
+
             this.$emit('totalPrice',res)
             return res
         }

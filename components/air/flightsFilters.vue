@@ -97,8 +97,8 @@ export default {
                 // 参数：参数要过滤的方法，这里只是定义数据，方法，用于下面的方法
                 airport:(flights,userOption)=>{
                     return flights.filter(v=>{
-                return v.org_airport_name===userOption
-            })
+                  return v.org_airport_name===userOption
+                  })
                 },
                 flightTimes:(flights,userOption)=>{
                       // 分割选出来的时间：0-6
@@ -115,13 +115,13 @@ export default {
                 },
                 company:(flights,userOption)=>{
                     return flights.filter(v=>{
-                return v.airline_name===userOption
-            })
+                 return v.airline_name===userOption
+                 })
                 },
                 airSize:(flights,userOption)=>{
                     return flights.filter(v=>{
-                return v.plane_size===userOption
-            })
+                  return v.plane_size===userOption
+                  })
                 },
             }
         }

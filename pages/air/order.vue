@@ -26,7 +26,7 @@ export default {
         return {
             //机票信息
             formData:{},
-            totalPrice:''
+            totalPrice:null
  
         }
     },
