@@ -159,6 +159,7 @@ export default {
              this.$axios({
                  url:'/airorders',
                  method:'post',
+                //  Bearer是JWT定义的规范
                  headers:{
                      Authorization:'Bearer '+this.$store.state.userstore.userInfo.token
                  },

@@ -26,9 +26,11 @@
 </template>
 
 <script>
+import QRCode from 'qrcode'
 export default {
     data () {
         return {
+            timer:null
             
         }
     },
@@ -42,6 +44,14 @@ export default {
                 }
             }).then(res=>{
                 console.log(res);
+                // price 用于展示
+                const {payInfo, price} = res.data;
+
+                 // 生成二维码到canvas
+                const stage = document.querySelector("#qrcode-stage");
+                QRCode.toCanvas(stage, payInfo.code_url, {
+                    width: 200
+                });
             })
         },200)
 
