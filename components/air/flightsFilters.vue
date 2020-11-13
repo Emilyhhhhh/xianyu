@@ -90,17 +90,20 @@ export default {
                     }
                 ],
             rules:{
+                 // 纯函数, 不依赖当前环境
+                 // 不对当前数据造成副作用
+                 // 相同的输入, 每次都能够得到相同的输出
                 // 🚩🚩🚩📦📦定义每个选项的过滤方法
                 // 参数：参数要过滤的方法，这里只是定义数据，方法，用于下面的方法
-                airport:(flights)=>{
+                airport:(flights,userOption)=>{
                     return flights.filter(v=>{
-                return v.org_airport_name===this.airport
+                return v.org_airport_name===userOption
             })
                 },
-                flightTimes:(flights)=>{
+                flightTimes:(flights,userOption)=>{
                       // 分割选出来的时间：0-6
-                    const from = Number(this.flightTimes.split(',')[0])
-                    const to = Number(this.flightTimes.split(',')[1])
+                    const from = Number(userOption.split(',')[0])
+                    const to = Number(userOption.split(',')[1])
                     console.log(from,to);
         
                     return flights.filter(v=>{
@@ -110,14 +113,14 @@ export default {
                         return time >= from && time < to
                     })   
                 },
-                company:(flights)=>{
+                company:(flights,userOption)=>{
                     return flights.filter(v=>{
-                return v.airline_name===this.company
+                return v.airline_name===userOption
             })
                 },
-                airSize:(flights)=>{
+                airSize:(flights,userOption)=>{
                     return flights.filter(v=>{
-                return v.plane_size===this.airSize
+                return v.plane_size===userOption
             })
                 },
             }
@@ -152,7 +155,7 @@ export default {
                 let  handleFn=this.rules[item]
                 if(userOption){
                     // 带上参数执行过滤方法
-                    flights=handleFn(flights)
+                    flights=handleFn(flights,userOption)
                 }
             }
             this.$emit('setDAataList',flights)
