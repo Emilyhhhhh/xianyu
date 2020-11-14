@@ -108,17 +108,25 @@ export default {
             }).then(res=>{
                 console.log(res.data);
                 if(res.data.statusTxt=="订单未支付"){
-                    setInterval(() => {
+             this.timer= setTimeout(() => {
                         this.checkPay()
                     }, 8000);
                 }else{
                      this.$message.success('订单支付成功')
-                   
-
+                     clearInterval()
                 }
             })
         }
-    }
+    },
+     destroyed() {
+            // 这跟 created / mounted 一样都是一个生命周期
+            // 在销毁组件的时候触发, 
+            // 可以讲不能带到别的页面的东西在这里一并销毁即可
+            // 这时候页面跳出, 需要清理定时器
+            // 避免轮询无法停止
+            console.log('跳出页面, 定时器被清理了');
+            clearTimeout(this.timer)
+        }
 
 }
 </script>
