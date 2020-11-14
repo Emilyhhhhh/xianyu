@@ -110,15 +110,15 @@ export default {
                 // 里面的每个对象都是一个乘机人
                 // 添加删除的实话, 只需要 push / splice
                 {
-                    username:'',
-                    id:''
+                    username:'xioabi',
+                    id:'4416555555555555'
                 }
             ],
             insurances:[],     //保险id
-            contactName:'',     //联系人名字
-            contactPhone:'',    //电话
+            contactName:'xiaobai',     //联系人名字
+            contactPhone:'13777777777',    //电话
             invoice:false,      //是否需要发票
-            captcha:'',
+            captcha:'000000',
             rules:{
                 contactName:[{
                     required: true, 
