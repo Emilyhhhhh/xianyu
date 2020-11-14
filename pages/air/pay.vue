@@ -2,7 +2,7 @@
     <div class="container">
         <div class="main">
             <div class="pay-title">
-                支付总金额 <span class="pay-price">￥ {{price}}</span>
+                支付总金额 <span class="pay-price">￥ {{payData.price}}</span>
             </div>
             <div class="pay-main">
                 <h4>微信支付</h4>
@@ -31,7 +31,7 @@ export default {
     data () {
         return {
             timer:null,
-            price:0,
+            payData:{},
             
         }
     },
@@ -71,21 +71,52 @@ export default {
                 }).then(res=>{
                     console.log(res);
                     // price 用于展示
-                    const {payInfo, price} = res.data;
-                    this.price=price
+                    // const {payInfo, price} = res.data;
+                    this.payData=res.data;
     
                     // 生成二维码到canvas
                     const stage = document.querySelector("#qrcode-stage");
-                    QRCode.toCanvas(stage, payInfo.code_url , {
+                    QRCode.toCanvas(stage, this.payData.payInfo.code_url , {
                         width: 200
-    
                     });
+
+                      
+                        this.checkPay()
+                      
                 })
                 }
             },
             immediate:true  
             //watch时有一个特点，就是当值第一次绑定时，不会执行监听函数，最初绑定值的时候也执行函数
 
+        }
+    },
+    methods: {
+        // 支付结果轮询
+        checkPay(){
+            this.$axios({
+                url:'airorders/checkpay',
+                method:'post',
+                data:{
+                    id:this.$route.query.id,
+                    nonce_str: this.price,  //支付接口返回的订单金额
+                    out_trade_no:  this.payData.payInfo.order_no //订单编号
+                },
+                headers:{
+                        Authorization:'Bearer '+this.$store.state.userstore.userInfo.token
+                    }
+            }).then(res=>{
+                console.log(res.data);
+                if(res.data.statusTxt=="订单未支付"){
+                    setInterval(() => {
+                        this.checkPay()
+                    }, 8000);
+                }else{
+                     this.$message.success('订单支付成功')
+                   
+
+                }
+            })
         }
     }
 
