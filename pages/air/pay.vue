@@ -35,29 +35,58 @@ export default {
             
         }
     },
-    mounted(){
-        // userInfo在页面加载完才赋值，一开始没有token，要等一下
-        setTimeout(v=>{
-            this.$axios({
-                url:'airorders/'+this.$route.query.id,
-                headers:{
-                    Authorization:'Bearer '+this.$store.state.userstore.userInfo.token
+    // mounted(){
+    //     // userInfo在页面加载完才赋值，一开始没有token，要等一下
+    //     // setTimeout(v=>{
+    //     //     this.$axios({
+    //     //         url:'airorders/'+this.$route.query.id,
+    //     //         headers:{
+    //     //             Authorization:'Bearer '+this.$store.state.userstore.userInfo.token
+    //     //         }
+    //     //     }).then(res=>{
+    //     //         console.log(res);
+    //     //         // price 用于展示
+    //     //         const {payInfo, price} = res.data;
+    //     //         this.price=price
+
+    //     //          // 生成二维码到canvas
+    //     //         const stage = document.querySelector("#qrcode-stage");
+    //     //         QRCode.toCanvas(stage, payInfo.code_url , {
+    //     //             width: 200
+
+    //     //         });
+    //     //     })
+    //     // },200)
+    // },
+    watch: {
+        'this.$store.state.userstore.userInfo.token':{
+            handler : function() {
+                if(this.$store.state.userstore.userInfo.token){
+                    console.log(this.$store.state.userstore.userInfo.token);
+                    this.$axios({
+                    url:'airorders/'+this.$route.query.id,
+                    headers:{
+                        Authorization:'Bearer '+this.$store.state.userstore.userInfo.token
+                    }
+                }).then(res=>{
+                    console.log(res);
+                    // price 用于展示
+                    const {payInfo, price} = res.data;
+                    this.price=price
+    
+                    // 生成二维码到canvas
+                    const stage = document.querySelector("#qrcode-stage");
+                    QRCode.toCanvas(stage, payInfo.code_url , {
+                        width: 200
+    
+                    });
+                })
                 }
-            }).then(res=>{
-                console.log(res);
-                // price 用于展示
-                const {payInfo, price} = res.data;
-                this.price=price
+            },
+            immediate:true  
+            //watch时有一个特点，就是当值第一次绑定时，不会执行监听函数，最初绑定值的时候也执行函数
 
-                 // 生成二维码到canvas
-                const stage = document.querySelector("#qrcode-stage");
-                QRCode.toCanvas(stage, payInfo.code_url , {
-                    width: 200
-
-                });
-            })
-        },200)
-
+        }
     }
 
 }
