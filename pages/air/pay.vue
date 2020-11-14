@@ -2,7 +2,7 @@
     <div class="container">
         <div class="main">
             <div class="pay-title">
-                支付总金额 <span class="pay-price">￥ 1000</span>
+                支付总金额 <span class="pay-price">￥ {{price}}</span>
             </div>
             <div class="pay-main">
                 <h4>微信支付</h4>
@@ -30,7 +30,8 @@ import QRCode from 'qrcode'
 export default {
     data () {
         return {
-            timer:null
+            timer:null,
+            price:0,
             
         }
     },
@@ -46,11 +47,13 @@ export default {
                 console.log(res);
                 // price 用于展示
                 const {payInfo, price} = res.data;
+                this.price=price
 
                  // 生成二维码到canvas
                 const stage = document.querySelector("#qrcode-stage");
-                QRCode.toCanvas(stage, payInfo.code_url, {
+                QRCode.toCanvas(stage, payInfo.code_url , {
                     width: 200
+
                 });
             })
         },200)
